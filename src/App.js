@@ -1,31 +1,32 @@
-import React, {Component} from 'react';
-import Status from './components/status';
-import "./App.scss";
+import React, { Component } from "react";
+import { Provider } from "react-redux";
 
+import configureStore from "redux/configureStore";
+import { Router } from "react-router";
 
+import AppRoutes from "./routes";
+import { createCustomHistory } from "utils/router";
 
-class App extends Component {
-    state = {
-        count: 0
-    }
+var browserHistory = createCustomHistory();
 
-    handleClick(){
-        this.setState({
-            count: this.state.count + 1
-        })
-    }
+const getStoreDefault = () => {
+  if (typeof window !== "undefined")
+    return window.__REDUX_STORE__ ? window.__REDUX_STORE__ : {};
+  return {};
+};
 
-    render() {
-        return (
-            <div className="status-lists">
-                <button onClick={this.handleClick.bind(this)}>CLick</button>
-                <Status status="ádas" like={3} count={this.state.count}/>
-                <Status status="ádas" like={3} count={this.state.count}/>
-                <Status status="ádas" like={3} count={this.state.count}/>
-                {/*<Status status="Anh nhớ em" time="20:32"/>*/}
-            </div>
-        );
-    }
+const store = configureStore(getStoreDefault(), {
+  routerHistory: browserHistory
+});
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Router history={browserHistory}>
+          {AppRoutes}
+        </Router>
+      </Provider>
+    );
+  }
 }
-
-export default App;
