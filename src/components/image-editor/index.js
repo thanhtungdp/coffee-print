@@ -2,10 +2,11 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import {autobind} from 'core-decorators';
+import { autobind } from "core-decorators";
 import ImageResize from "./ImageResize";
 import Toolbar from "./toolbar";
 import Brightness from "./toolbar/Brightness";
+import { PrintElem } from "utils/print";
 
 const ImageEditorContainer = styled.div`
   position: relative;
@@ -37,6 +38,13 @@ export default class ImageEditor extends PureComponent {
     this.setState({ isPreview: !this.state.isPreview });
   }
 
+  onPrint(e) {
+    e.preventDefault();
+    this.setState({ isPreview: true }, () => {
+      PrintElem("imageResize");
+    });
+  }
+
   handleChangeBrightness({ brightness, contrast }) {
     this.imageResize.updateBrightnessConstants({ brightness, contrast });
   }
@@ -47,9 +55,11 @@ export default class ImageEditor extends PureComponent {
         <Toolbar
           isPreview={this.state.isPreview}
           onPreview={this.onPressPreview.bind(this)}
+          onPrint={this.onPrint.bind(this)}
         />
         <MainContainer>
           <ImageResize
+            id="imageResize"
             ref={ref => (this.imageResize = ref)}
             isPreview={this.state.isPreview}
             imageUrl={this.props.imageUrl}

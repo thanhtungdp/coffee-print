@@ -60,6 +60,7 @@ export default class ImageEditor extends PureComponent {
   render() {
     return (
       <ImageEditorContainer
+        id="imageResize"
         isPreview={this.props.isPreview}
         size={this.props.size}
       >
