@@ -24,7 +24,7 @@ const Resize = styled(Rnd)`
 `;
 
 @autobind
-export default class ImageEditor extends PureComponent {
+export default class ImageResizeEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
     size: PropTypes.number

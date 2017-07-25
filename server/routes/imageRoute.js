@@ -1,5 +1,6 @@
 import express from "express";
 import slug from "slug";
+import Pagination from "pagination-js";
 import ImageModel from "../models/image";
 import imageType from "../../src/constants/imageType";
 import multerUpload from "../config/multerUpload";
@@ -13,9 +14,9 @@ router.post("/", multerUpload.single("image"), async (req, res) => {
     let drink = await DrinkModel.findOne({ _id: drinkId });
     let totalImage = await ImageModel.find({}).count();
     let fileName = `${tableNumber}_${slug(drink.name)}_${totalImage + 1}`;
-
     let image = new ImageModel();
-    image.fileName = fileName;
+    image.name = fileName;
+    image.fileName = req.file.filename;
     image.drinkId = drink.id;
     image.tableNumber = tableNumber;
     await image.save();
@@ -27,7 +28,7 @@ router.post("/", multerUpload.single("image"), async (req, res) => {
 
 router.put("/print", async (req, res) => {
   const { id } = req.body;
-  let image = ImageModel.findOne({ _id: id });
+  let image = await ImageModel.findOne({ _id: id });
   if (!image) {
     res.json({ error: true });
   } else {
@@ -48,8 +49,19 @@ router.get("/", async (req, res) => {
   if (type !== imageType.ALL && type) {
     objectQuery.type = type;
   }
-  const images = await ImageModel.find(objectQuery);
-  res.json(images);
+  const totalImages = await ImageModel.find(objectQuery).count();
+  let pagination = new Pagination(req.query, totalImages).getPagination();
+  const images = await ImageModel.find(objectQuery)
+    .populate({
+      path: "drinkId"
+    })
+    .sort({ createdAt: -1 })
+    .skip(pagination.minIndex)
+    .limit(pagination.itemPerPage);
+  res.json({
+    data: images,
+    pagination
+  });
 });
 
 export default router;

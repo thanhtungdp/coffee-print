@@ -26,7 +26,8 @@ const MainContainer = styled.div`
 @autobind
 export default class ImageEditor extends PureComponent {
   static propTypes = {
-    imageUrl: PropTypes.string
+    imageUrl: PropTypes.string,
+    onPrinted: PropTypes.func
   };
 
   state = {
@@ -41,7 +42,7 @@ export default class ImageEditor extends PureComponent {
   onPrint(e) {
     e.preventDefault();
     this.setState({ isPreview: true }, () => {
-      PrintElem("imageResize");
+      PrintElem("imageResize", this.props.onPrinted);
     });
   }
 

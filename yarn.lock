@@ -4466,6 +4466,10 @@ osenv@0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+pagination-js@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/pagination-js/-/pagination-js-2.0.2.tgz#239fb67c7216d184f12fd0ec968f9f0ee01af95f"
+
 pako@~0.2.0:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"

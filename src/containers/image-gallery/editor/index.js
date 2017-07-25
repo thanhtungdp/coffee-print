@@ -1,26 +1,33 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import styled from "styled-components";
+import { autobind } from "core-decorators";
 import ImageEditor from "components/image-editor";
 import theme from "themes/imageEditorLayout";
 import paperSize from "config/paperSize";
+import { connectAutoBindAction } from "utils/redux";
+import { printImage } from "redux/actions/imageAction.js";
 
 const EditorContainer = styled.div`
   flex: 1;
   background: ${theme.EDITOR};
 `;
 
-@connect(state => ({
-  currentImage: state.image.currentImage
-}))
+@connectAutoBindAction(
+  state => ({
+    currentImage: state.image.currentImage
+  }),
+  { printImage }
+)
+@autobind
 export default class Editor extends PureComponent {
   static propTypes = {
     currentImage: PropTypes.shape({
       id: PropTypes.any,
       image: PropTypes.string,
       name: PropTypes.string
-    })
+    }),
+    printImage: PropTypes.func
   };
 
   state = {
@@ -41,6 +48,11 @@ export default class Editor extends PureComponent {
     }
   }
 
+  // complete image
+  handleOnPrinted() {
+    this.props.printImage(this.props.currentImage.id);
+  }
+
   render() {
     const { currentImage } = this.props;
     return (
@@ -48,6 +60,7 @@ export default class Editor extends PureComponent {
         {currentImage.id &&
           this.state.isShow &&
           <ImageEditor
+            onPrinted={this.handleOnPrinted}
             size={paperSize.IMAGE_SIZE_DISPLAY}
             imageUrl={currentImage.image}
           />}

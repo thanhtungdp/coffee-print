@@ -5,8 +5,10 @@ function getUrl(path) {
   return `${DEFAULT_API}/${path}`;
 }
 
-export function getImageList(type) {
-  return getFetch(getUrl(`image?type=${type}`));
+export function getImageList({ type, page = 1, itemPerPage = 20 }) {
+  return getFetch(
+    getUrl(`image?type=${type}&page=${page}&itemPerPage=${itemPerPage}`)
+  );
 }
 
 export function uploadImage(data) {

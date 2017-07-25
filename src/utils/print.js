@@ -1,7 +1,7 @@
 import $ from "jquery";
 import paperSize from "config/paperSize";
 
-export function PrintElem(elem) {
+export function PrintElem(elem, callback) {
   let styleHtml = $("style")[0].outerHTML;
   let htmlContent = document.getElementById(elem).outerHTML;
   var mywindow = window.open(
@@ -80,12 +80,19 @@ export function PrintElem(elem) {
 		</body>
 	  </html>
   `;
+
+  mywindow.onafterprint = function() {
+    callback();
+  };
   mywindow.document.write(htmlDocument);
   mywindow.document.close(); // necessary for IE >= 10
   mywindow.focus(); // necessary for IE >= 10*/
   setTimeout(() => {
     mywindow.print();
-    mywindow.close();
+    setTimeout(() => {
+      mywindow.close();
+      callback();
+    }, 100);
   }, 300);
 
   return true;
