@@ -1,8 +1,10 @@
 import bodyParser from "body-parser";
 import express from "express";
 import mongoose from "mongoose";
+import path from "path";
 
 import config from "./config";
+import { PORT_START } from "../src/config";
 //import {secretCodeMiddleware} from './middlewares';
 
 import imageRoute from "./routes/imageRoute";
@@ -34,16 +36,20 @@ app.use((req, res, next) => {
   next();
 });
 mongoose.connect(config.MONGODB_OPTIONS.database);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../build")));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "100mb" }));
-
-app.get("/", (req, res) => {
-  res.json({ ok: true });
-});
 
 app.use("/drink", drinkRoute);
 app.use("/image", imageRoute);
 
-app.listen(config.PORT, () => {
-  console.log(`listen on ${config.PORT}`);
+app.get("*", (req ,res) => {
+  console.log(__dirname);
+  res.sendFile(path.join(__dirname,"../build/index.html"));
+});
+
+app.listen(PORT_START, () => {
+  console.log(`listen on ${PORT_START}`);
 });
