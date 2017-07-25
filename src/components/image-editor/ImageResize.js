@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import ImageCanvas from "./ImageCanvas";
 import Rnd from "react-rnd";
+import { autobind } from "core-decorators";
 
 const ImageEditorContainer = styled.div`
   width: ${props => props.size}px;
@@ -11,6 +12,7 @@ const ImageEditorContainer = styled.div`
   overflow: hidden;
   background: #d4d4d4;
   border-radius: ${props => props.size / 2}px;
+  display: flex;
   ${props => (props.isPreview ? `
     position: relative;
     overflow: hidden;
@@ -21,6 +23,7 @@ const Resize = styled(Rnd)`
   border: 1px solid ${props => (props.isPeview ? "transparent" : "#eeeeee")};
 `;
 
+@autobind
 export default class ImageEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
@@ -55,6 +58,10 @@ export default class ImageEditor extends PureComponent {
 
   updateBrightnessConstants(...args) {
     this.imageCanvas.updateBrightnessConstants(...args);
+  }
+
+  updateRotate(...args) {
+    this.imageCanvas.updateRotate(...args);
   }
 
   render() {

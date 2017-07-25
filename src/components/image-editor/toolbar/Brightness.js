@@ -40,10 +40,6 @@ const BrightnessContainer = styled.div`
   }
 `;
 
-const Clearfix = styled.div`
-  height: 16px;
-`;
-
 export default class Brightness extends PureComponent {
   static propTypes = {
     onChange: PropTypes.func
@@ -51,7 +47,8 @@ export default class Brightness extends PureComponent {
 
   state = {
     brightness: 100,
-    contrast: 100
+    contrast: 100,
+    angle: 0
   };
 
   getPercent(percent) {
@@ -71,19 +68,20 @@ export default class Brightness extends PureComponent {
     if (this.props.onChange) {
       this.props.onChange({
         brightness: this.getPercent(this.state.brightness),
-        contrast: this.getPercent(this.state.contrast)
+        contrast: this.getPercent(this.state.contrast),
+        angle: this.state.angle
       });
     }
     return;
   }
 
-  renderSlider(label, key) {
+  renderSlider(label, key, min = 0, max = 200) {
     return (
       <div className="sliderLabel">
         <label>{label}</label>
         <Slider
-          min={0}
-          max={200}
+          min={min}
+          max={max}
           value={this.state[key]}
           tooltip={false}
           onChange={this.handleChangeSlider.bind(this, key)}
@@ -98,6 +96,7 @@ export default class Brightness extends PureComponent {
         <div className="sliderContent">
           {this.renderSlider("Độ sáng", "brightness")}
           {this.renderSlider("Tương phản", "contrast")}
+          {this.renderSlider("Xoay", "angle", -360, 360)}
         </div>
       </BrightnessContainer>
     );

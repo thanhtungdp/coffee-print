@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { autobind } from "core-decorators";
 import ImageResize from "./ImageResize";
 import Toolbar from "./toolbar";
-import Brightness from "./toolbar/Brightness";
+import Slider from "./toolbar/Brightness";
 import { PrintElem } from "utils/print";
 
 const ImageEditorContainer = styled.div`
@@ -45,8 +45,9 @@ export default class ImageEditor extends PureComponent {
     });
   }
 
-  handleChangeBrightness({ brightness, contrast }) {
+  handleChangeSlider({ brightness, contrast, angle }) {
     this.imageResize.updateBrightnessConstants({ brightness, contrast });
+    this.imageResize.updateRotate(angle);
   }
 
   render() {
@@ -66,7 +67,7 @@ export default class ImageEditor extends PureComponent {
             size={this.props.size}
           />
         </MainContainer>
-        <Brightness onChange={this.handleChangeBrightness} />
+        <Slider onChange={this.handleChangeSlider} />
       </ImageEditorContainer>
     );
   }

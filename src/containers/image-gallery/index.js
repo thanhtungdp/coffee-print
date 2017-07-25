@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import PageA4Image from "components/page-a4-image";
 import styled from "styled-components";
 import Gallery from "./gallery";
 import Editor from "./editor";

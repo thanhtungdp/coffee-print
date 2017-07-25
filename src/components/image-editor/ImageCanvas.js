@@ -12,7 +12,7 @@ const Image = styled.img`
   transform: rotate(${props => (props.rotate ? props.rotate : 0)}deg);
   width: 100%;
   height: auto;
-  transition: transform .1s linear;
+  transition: transform .03s linear;
 `;
 
 const ImageFake = styled.img`
@@ -53,6 +53,11 @@ export default class ImageCanvas extends PureComponent {
   // }
 
   updateBrightnessConstants({ brightness = 0, contrast = 0 }) {
+    if (brightness === this.brightness && contrast === this.contrast) {
+      return;
+    }
+    this.brightness = brightness;
+    this.contrast = contrast;
     this.canvas
       .draw(this.texture)
       .brightnessContrast(brightness, contrast)
@@ -60,10 +65,14 @@ export default class ImageCanvas extends PureComponent {
     this.imageReal.src = this.canvas.toDataURL("image/jpg");
   }
 
+	updateRotate(rotate) {
+		this.setState({
+			rotate
+		});
+	}
+
   componentDidMount() {
-    window.onload = () => {
-      this.createCanvas();
-    };
+	  this.createCanvas();
   }
   render() {
     return (

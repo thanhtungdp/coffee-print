@@ -1,9 +1,19 @@
 import React from "react";
 import { IndexRoute, Route } from "react-router";
 import ImageGallery from "containers/image-gallery";
+import DrinkManager from "containers/drink-manager";
+import UploadImage from "containers/upload-image";
+import { connect } from "react-redux";
 
-export default (
-  <Route path="/">
-    <IndexRoute component={ImageGallery} />
-  </Route>
-);
+const Layout = ({ children }) => children;
+const AppContainer = connect(state => ({}))(Layout);
+
+export default () => {
+  return (
+    <Route path="/" component={AppContainer}>
+      <IndexRoute component={ImageGallery} />
+      <Route path="drink" component={DrinkManager} />
+      <Route path="image" component={UploadImage} />
+    </Route>
+  );
+};
