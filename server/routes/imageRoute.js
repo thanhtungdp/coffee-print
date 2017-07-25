@@ -5,6 +5,7 @@ import ImageModel from "../models/image";
 import imageType from "../../src/constants/imageType";
 import multerUpload from "../config/multerUpload";
 import DrinkModel from "../models/drink";
+import { cropImageThumbnail } from "../utils";
 
 var router = express.Router();
 
@@ -15,6 +16,7 @@ router.post("/", multerUpload.single("image"), async (req, res) => {
     let totalImage = await ImageModel.find({}).count();
     let fileName = `${tableNumber}_${slug(drink.name)}_${totalImage + 1}`;
     let image = new ImageModel();
+    cropImageThumbnail(req.file.filename);
     image.name = fileName;
     image.fileName = req.file.filename;
     image.drinkId = drink.id;
@@ -45,6 +47,7 @@ router.delete("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   const { type } = req.query;
+  // await ImageModel.find({}).remove();
   let objectQuery = {};
   if (type !== imageType.ALL && type) {
     objectQuery.type = type;

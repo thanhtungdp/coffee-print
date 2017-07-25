@@ -21,7 +21,7 @@ export function loadMoreImageList({ type, page, itemPerPage }) {
     type: LOAD_MORE_IMAGE_LIST,
     AWAIT_MARKER,
     payload: {
-      loadMoreImageList: DefaultApi.getImageList({ type, page, itemPerPage })
+	    loadMoreImageList: DefaultApi.getImageList({ type, page, itemPerPage })
     }
   };
 }

@@ -53,9 +53,9 @@ const Label = styled.span`
   white-space: nowrap;
 `;
 
-export default function ImageItem({ id, type, name, image, onClick }) {
+export default function ImageItem({ type, name, imageThumbnail, onClick }) {
   return (
-    <ImageItemContainer href="#" onClick={onClick} image={image}>
+    <ImageItemContainer href="#" onClick={onClick} image={imageThumbnail}>
       <Absolute>
         {type === imageType.PRINTED &&
           <OverlayPrinted>
@@ -71,6 +71,6 @@ export default function ImageItem({ id, type, name, image, onClick }) {
 ImageItem.propTypes = {
   id: PropTypes.any,
   name: PropTypes.string,
-  image: PropTypes.string,
+  imageThumbmail: PropTypes.string,
   onClick: PropTypes.func
 };

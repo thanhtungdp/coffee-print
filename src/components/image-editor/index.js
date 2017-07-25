@@ -27,6 +27,7 @@ const MainContainer = styled.div`
 export default class ImageEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
+    name: PropTypes.string,
     onPrinted: PropTypes.func
   };
 
@@ -55,6 +56,7 @@ export default class ImageEditor extends PureComponent {
     return (
       <ImageEditorContainer>
         <Toolbar
+          name={this.props.name}
           isPreview={this.state.isPreview}
           onPreview={this.onPressPreview.bind(this)}
           onPrint={this.onPrint.bind(this)}

@@ -6,7 +6,7 @@ import {
   PRINT_IMAGE
 } from "../actions/imageAction";
 import update from "react-addons-update";
-import { UPLOADS_FOLDER_NAME } from "config";
+import { UPLOADS_FOLDER_NAME, UPLOADS_THUMBNAIL_FOLDER_NAME } from "config";
 import imageType from "constants/imageType";
 
 const initialState = {
@@ -37,7 +37,12 @@ export default function createReducer(state = initialState, action) {
 function cleanDataImageList(data) {
   return data.map(item => ({
     ...item,
-    image: UPLOADS_FOLDER_NAME + "/" + item.fileName
+    image: UPLOADS_FOLDER_NAME + "/" + item.fileName,
+    imageThumbnail: UPLOADS_FOLDER_NAME +
+      "/" +
+      UPLOADS_THUMBNAIL_FOLDER_NAME +
+      "/" +
+      item.fileName
   }));
 }
 
@@ -58,7 +63,10 @@ function loadMoreImageList(state, { payload }) {
   return update(state, {
     list: {
       data: {
-        $push: [cleanDataImageList(payload.loadMoreImageList.data)]
+        $apply: oldData => [
+          ...oldData,
+          ...cleanDataImageList(payload.loadMoreImageList.data)
+        ]
       },
       pagination: {
         $set: payload.loadMoreImageList.pagination

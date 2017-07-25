@@ -7,6 +7,12 @@ const ToolbarContainer = styled.div`
   display: flex;
   padding: 16px 16px;
   background-color: ${theme.TOOLBAR};
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Menu = styled.div`
+  display: flex;
 `;
 
 const Clearfix = styled.div`
@@ -21,6 +27,10 @@ const ButtonItem = styled.a`
     text-decoration: none;
   }
 `;
+
+const SpanName = styled.span`
+  color: #ffffff;
+`
 
 const ButtonCrop = ({ isPreview, onClick }) => (
   <ButtonItem href="#" onClick={onClick}>
@@ -37,21 +47,25 @@ const ButtonCrop = ({ isPreview, onClick }) => (
 export default class Toolbar extends PureComponent {
   static propTypes = {
     onPreview: PropTypes.func,
-	  onPrint: PropTypes.func,
-    isPreview: PropTypes.bool
+    onPrint: PropTypes.func,
+    isPreview: PropTypes.bool,
+    name: PropTypes.string
   };
 
   render() {
     return (
       <ToolbarContainer>
-        <ButtonCrop
-          isPreview={this.props.isPreview}
-          onClick={this.props.onPreview}
-        />
-        <Clearfix />
-        <ButtonItem href="#" onClick={this.props.onPrint}>
-          <i className="icon-printer" /> In ảnh
-        </ButtonItem>
+        <Menu>
+          <ButtonCrop
+            isPreview={this.props.isPreview}
+            onClick={this.props.onPreview}
+          />
+          <Clearfix />
+          <ButtonItem href="#" onClick={this.props.onPrint}>
+            <i className="icon-printer" /> In ảnh
+          </ButtonItem>
+        </Menu>
+        <SpanName>{this.props.name}</SpanName>
       </ToolbarContainer>
     );
   }

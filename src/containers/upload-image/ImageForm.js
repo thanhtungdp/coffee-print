@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
+import swal from "sweetalert2";
 import { autobind } from "core-decorators";
 import Input from "reactstrap/lib/Input";
 import ButtonStyle from "reactstrap/lib/Button";
@@ -25,8 +25,8 @@ const ImageFormContainer = styled.div`
     border: 0px;
     background-color: rgba(0,0,0,.7);
     color: #ffffff;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
   .line {
     height: 1px;
@@ -42,7 +42,7 @@ const Button = styled(ButtonStyle)`
   font-size: 16px;
   color: #ffffff;
   background-color: ${props => (props.customColor ? props.customColor : "#3498db")};
-  &:hover{
+  &:hover, &:focus{
     background-color: ${props => (props.customColor ? props.customColor : "#3498db")};
     color: #ffffff;
   }
@@ -116,7 +116,10 @@ export default class ImageForm extends Component {
     let data = new FormData();
     const { image, tableNumber, drinkId } = this.state;
     if (!image || !tableNumber || !drinkId) {
-      alert("Vui òng nhập đầy đủ các trường dữ liệu");
+      swal({
+        title: "Vui lòng nhập đầy đủ các trường dữ liệu",
+        type: "error"
+      });
       return;
     }
     data.append("image", image);
@@ -129,12 +132,22 @@ export default class ImageForm extends Component {
       .then(res => {
         this.setState({
           uploading: false,
-          uploaded: true
+          uploaded: true,
+          tableNumber: "",
+          drinkId: "",
+          imagePreview: "",
+          image: ""
         });
-        alert("Tải ảnh lên thành công ^_^");
+        swal({
+          title: "Tải ảnh lên thành công",
+          type: "success"
+        });
       })
       .catch(e => {
-        alert("Có lỗi xảy ra");
+        swal({
+          title: "Vui lòng thử lại",
+          type: "error"
+        });
         console.log(e);
       });
   }
@@ -155,8 +168,10 @@ export default class ImageForm extends Component {
           type="select"
           size="lg"
           onChange={this.handleChangeInput.bind(this, "drinkId")}
-          value={this.state.drink}
+          value={this.state.drinkId}
+          placeholder="Chọn đồ uống"
         >
+          <option value="">Chọn đồ uống</option>
           {this.props.drinks.map(drink => (
             <option key={drink.id} value={drink.id}>
               {drink.name}
@@ -201,7 +216,7 @@ export default class ImageForm extends Component {
           <Input
             placeholder="Bàn số"
             size="lg"
-            state={this.state.tableNumber}
+            value={this.state.tableNumber}
             onChange={this.handleChangeInput.bind(this, "tableNumber")}
           />
         </div>

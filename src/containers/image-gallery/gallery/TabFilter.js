@@ -16,7 +16,7 @@ const TabItem = styled.a`
   align-items: center;
   color: #ffffff !important;
   font-size: 14px;
-  padding: 16px 16px;
+  padding: 8px 16px;
   &:hover{
     background-color: ${theme.GALLERY};
     cursor: pointer;

@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { autobind } from "core-decorators";
+import swal from "sweetalert2";
 import ImageEditor from "components/image-editor";
 import theme from "themes/imageEditorLayout";
 import paperSize from "config/paperSize";
@@ -51,6 +52,10 @@ export default class Editor extends PureComponent {
   // complete image
   handleOnPrinted() {
     this.props.printImage(this.props.currentImage.id);
+    swal({
+      title: this.props.currentImage.name + " in thành công",
+      type: "success"
+    });
   }
 
   render() {
@@ -63,6 +68,7 @@ export default class Editor extends PureComponent {
             onPrinted={this.handleOnPrinted}
             size={paperSize.IMAGE_SIZE_DISPLAY}
             imageUrl={currentImage.image}
+            name={currentImage.name}
           />}
       </EditorContainer>
     );

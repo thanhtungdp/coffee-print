@@ -7,6 +7,7 @@ const ImageContainer = styled.div`
    min-height: 100vh;
    background-image: url(assets/images/background.png);
    background-size: cover;
+   background-position: center center;
 `;
 
 const Container = styled.div`
@@ -20,7 +21,7 @@ const Container = styled.div`
    }
 `;
 
-export default class Image extends Component {
+export default class UploadImageContainer extends Component {
   static propTypes = {};
   render() {
     return (

@@ -5,10 +5,12 @@ import { autobind } from "core-decorators";
 import { connectAutoBindAction } from "utils/redux";
 import theme from "themes/imageEditorLayout";
 import GalleryList from "components/gallery-list";
+import { checkLoadMore } from "utils/pagination";
 import TabFilter from "./TabFilter";
 import {
   setCurrentImage,
-  getImageList
+  getImageList,
+  loadMoreImageList
 } from "redux/actions/imageAction";
 import tabFilter from "constants/imageType";
 
@@ -36,24 +38,39 @@ const TABS = [
 
 @connectAutoBindAction(
   state => ({
-    images: state.image.list.data
+    images: state.image.list.data,
+    pagination: state.image.list.pagination
   }),
-  { setCurrentImage, getImageList }
+  { setCurrentImage, getImageList, loadMoreImageList }
 )
 @autobind
 export default class Gallery extends PureComponent {
   static propTypes = {
     images: GalleryList.propTypes.images,
     setCurrentImage: PropTypes.func,
-    getImageList: PropTypes.func
+    getImageList: PropTypes.func,
+    loadMoreImageList: PropTypes.func
   };
 
   state = {
     currentTab: TABS[0]
   };
 
-  getImages() {
-    this.props.getImageList({ type: this.state.currentTab.value });
+  getImages(page = 1) {
+    this.props.getImageList({
+      type: this.state.currentTab.value,
+      page: page,
+      itemPerPage: 20
+    });
+  }
+
+  handleLoadmore(e) {
+    e.preventDefault();
+    this.props.loadMoreImageList({
+      type: this.state.currentTab.value,
+      page: this.props.pagination.page + 1,
+      itemPerPage: this.props.pagination.itemPerPage
+    });
   }
 
   handleChangeTab(tab) {
@@ -87,6 +104,8 @@ export default class Gallery extends PureComponent {
         <GalleryList
           images={this.getDataFilter()}
           onChooseImage={this.handleChooseImage}
+          onLoadmore={this.handleLoadmore}
+          isLoadmore={checkLoadMore(this.props.pagination)}
         />
         <TabFilter
           tabs={TABS}
