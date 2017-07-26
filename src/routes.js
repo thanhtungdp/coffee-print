@@ -12,8 +12,8 @@ export default () => {
   return (
     <Route path="/" component={AppContainer}>
       <IndexRoute component={ImageGallery} />
-      <Route path="drink" component={DrinkManager} />
-      <Route path="image" component={UploadImage} />
+      <Route path="drink-manager" component={DrinkManager} />
+      <Route path="image-upload" component={UploadImage} />
     </Route>
   );
 };
