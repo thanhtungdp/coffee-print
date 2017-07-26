@@ -94,17 +94,35 @@ export function PrintElem(elem, callback) {
 	  </html>
   `;
 
-  mywindow.onafterprint = function() {
-    callback();
-  };
+	var beforePrint = function() {
+		console.log('before print');
+	};
+	var afterPrint = function() {
+		console.log('after print');
+	};
+
+	if (mywindow.matchMedia) {
+		var mediaQueryList = mywindow.matchMedia('print');
+		mediaQueryList.addListener(function(mql) {
+			if (mql.matches) {
+				beforePrint();
+			} else {
+				afterPrint();
+			}
+		});
+	}
+
+	window.onbeforeprint = beforePrint;
+	window.onafterprint = afterPrint;
+
   mywindow.document.write(htmlDocument);
   mywindow.document.close(); // necessary for IE >= 10
   mywindow.focus(); // necessary for IE >= 10*/
   setTimeout(() => {
     mywindow.print();
     setTimeout(() => {
-      mywindow.close();
-      callback();
+      //mywindow.close();
+      //callback();
     }, 100);
   }, 200);
 

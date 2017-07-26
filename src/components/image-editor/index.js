@@ -33,7 +33,7 @@ export default class ImageEditor extends PureComponent {
   };
 
   state = {
-    isPreview: false
+    isPreview: true
   };
 
   onPressPreview(e) {

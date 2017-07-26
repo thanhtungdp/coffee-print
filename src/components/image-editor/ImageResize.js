@@ -23,6 +23,14 @@ const Resize = styled(Rnd)`
   border: 1px solid ${props => (props.isPeview ? "transparent" : "#eeeeee")};
 `;
 
+const Empty = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 @autobind
 export default class ImageResizeEditor extends PureComponent {
   static propTypes = {
@@ -39,7 +47,7 @@ export default class ImageResizeEditor extends PureComponent {
     this.state = {
       imageWidth: props.size,
       imageHeight: props.size,
-      isPreview: false
+      yPosition: 0
     };
   }
 
@@ -51,9 +59,7 @@ export default class ImageResizeEditor extends PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ isPreview: true });
-    }, 5000);
+    this.readSizeImage();
   }
 
   updateBrightnessConstants(...args) {
@@ -64,31 +70,51 @@ export default class ImageResizeEditor extends PureComponent {
     this.imageCanvas.updateRotate(...args);
   }
 
+  updateImageSize(width, height) {
+    const distance = this.props.size / width;
+    const newHeight = height * distance;
+    this.setState({
+      yPosition: (this.props.size - newHeight) / 2
+    });
+  }
+
+  readSizeImage() {
+    var img = new Image();
+    var context = this;
+    img.addEventListener("load", function() {
+      context.updateImageSize(this.naturalWidth, this.naturalHeight);
+    });
+    img.src = this.props.imageUrl;
+  }
+
   render() {
+    const { yPosition } = this.state;
     return (
       <ImageEditorContainer
         id="imageResize"
         isPreview={this.props.isPreview}
         size={this.props.size}
       >
-        <Resize
-          default={{
-            x: 0,
-            y: 0,
-            width: this.state.imageWidth
-          }}
-          lockAspectRatio
-          resizeGrid={[1, 1]}
-          isPeview={this.props.isPreview}
-          onResize={this.onResize.bind(this)}
-        >
-          <ImageCanvas
-            ref={ref => (this.imageCanvas = ref)}
-            width={this.state.imageWidth}
-            height={this.state.imageHeight}
-            imageUrl={this.props.imageUrl}
-          />
-        </Resize>
+        {!yPosition && <Empty>Loading ...</Empty>}
+        {yPosition &&
+          <Resize
+            default={{
+              x: 0,
+              y: yPosition,
+              width: this.state.imageWidth
+            }}
+            lockAspectRatio
+            resizeGrid={[1, 1]}
+            isPeview={this.props.isPreview}
+            onResize={this.onResize.bind(this)}
+          >
+            <ImageCanvas
+              ref={ref => (this.imageCanvas = ref)}
+              width={this.state.imageWidth}
+              height={this.state.imageHeight}
+              imageUrl={this.props.imageUrl}
+            />
+          </Resize>}
       </ImageEditorContainer>
     );
   }
