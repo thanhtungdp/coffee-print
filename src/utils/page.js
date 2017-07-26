@@ -15,13 +15,22 @@ export function setPageSize({
   localStorage.setItem("pageCircleSize", circleSize);
 }
 
+export function getPageSizeDefault() {
+  return {
+    width: SIZE.width,
+    height: SIZE.height,
+    paddingRight: SIZE.paddingRight,
+    paddingBottom: SIZE.paddingBottom,
+    circleSize: IMAGE_SIZE_PRINT
+  };
+}
+
 export function getPageSize() {
   const pageWidth = parseInt(localStorage.getItem("pageWidth"), 10);
   const pageHeight = parseInt(localStorage.getItem("pageHeight"), 10);
   const paddingRight = parseInt(localStorage.getItem("pagePaddingRight"), 10);
   const paddingBottom = parseInt(localStorage.getItem("pagePaddingBottom"), 10);
   const circleSize = parseInt(localStorage.getItem("pageCircleSize"), 10);
-  console.log(pageWidth);
   return {
     width: pageWidth ? pageWidth : SIZE.width,
     height: pageHeight ? pageHeight : SIZE.height,

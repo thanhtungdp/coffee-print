@@ -48,11 +48,6 @@ export default class ImageCanvas extends PureComponent {
     this.texture = this.canvas.texture(this.image);
   }
 
-  // updateImageFilter() {
-  //   this.canvas.draw(this.texture).ink(0.25).update();
-  //   this.image.src = this.canvas.toDataURL("image/png");
-  // }
-
   updateBrightnessConstants({ brightness = 0, contrast = 0 }) {
     if (brightness === this.brightness && contrast === this.contrast) {
       return;
@@ -76,6 +71,7 @@ export default class ImageCanvas extends PureComponent {
     $("#image").on("load", () => {
       setTimeout(() => {
 	      this.createCanvas();
+	      this.updateBrightnessConstants({});
       }, 200)
     });
   }

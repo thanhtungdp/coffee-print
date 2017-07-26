@@ -8,7 +8,7 @@ import Clearfix from "components/elements/clearfix";
 import { autobind } from "core-decorators";
 import { reduxForm, Field } from "redux-form";
 import { createValidateComponent } from "hoc/redux-form-validate";
-import { getPageSize, setPageSize } from "utils/page";
+import { getPageSize, setPageSize, getPageSizeDefault } from "utils/page";
 import swal from "sweetalert2";
 
 const FInputLabel = createValidateComponent(InputLabel);
@@ -39,11 +39,24 @@ const FormSettingPageContainer = reduxForm({
 
 @autobind
 export default class ModalSettingPage extends React.Component {
+  state = {
+    isShowForm: true
+  };
+
   handleSubmit(values) {
     console.log(values);
     setPageSize(values);
     this.props.toggle();
     swal({ title: "Cập nhật thành công", type: "success" });
+  }
+
+  resetForm() {
+	  setPageSize(getPageSizeDefault());
+	  this.setState({ isShowForm: false }, () => {
+      setTimeout(() => {
+        this.setState({ isShowForm: true });
+      }, 10);
+    });
   }
 
   render() {
@@ -56,10 +69,12 @@ export default class ModalSettingPage extends React.Component {
       >
         <ModalHeader>Cài đặt page</ModalHeader>
         <ModalBody>
-          <FormSettingPageContainer
+          {this.state.isShowForm && <FormSettingPageContainer
             initialValues={getPageSize()}
             onSubmit={this.handleSubmit}
-          />
+          />}
+          <Clearfix height={10}/>
+          <Button block onClick={this.resetForm}>Đặt lại</Button>
         </ModalBody>
       </Modal>
     );
