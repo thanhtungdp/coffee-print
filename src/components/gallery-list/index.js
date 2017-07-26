@@ -5,11 +5,11 @@ import ImageItem from "./ImageItem";
 
 const GalleryListContainer = styled.div`
   flex: 1;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const ImageItemContainer = styled.div`
-  width: 116.67px;
+  width: 33.33%;
   height: 116.67px;
   padding: 8px;
   float: left;
