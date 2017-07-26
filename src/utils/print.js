@@ -103,8 +103,8 @@ export function PrintElem(elem, callback) {
   setTimeout(() => {
     mywindow.print();
     setTimeout(() => {
-      // mywindow.close();
-      //callback();
+      mywindow.close();
+      callback();
     }, 100);
   }, 200);
 
