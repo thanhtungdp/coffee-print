@@ -9,6 +9,7 @@ import { PORT_START } from "../src/config";
 
 import imageRoute from "./routes/imageRoute";
 import drinkRoute from "./routes/drinkRoute";
+import authRoute from "./routes/authRoute";
 
 // Init app express
 const app = express();
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "100mb" }));
 
 app.use("/drink", drinkRoute);
 app.use("/image", imageRoute);
+app.use("/auth", authRoute);
 
 app.get("*", (req ,res) => {
   console.log(__dirname);

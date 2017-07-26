@@ -2,6 +2,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import $ from "jquery";
 
 const Container = styled.div`
   position: relative;
@@ -65,15 +66,24 @@ export default class ImageCanvas extends PureComponent {
     this.imageReal.src = this.canvas.toDataURL("image/jpg");
   }
 
-	updateRotate(rotate) {
-		this.setState({
-			rotate
-		});
-	}
+  updateRotate(rotate) {
+    this.setState({
+      rotate
+    });
+  }
+
+  createImage() {
+    $("#image").on("load", () => {
+      setTimeout(() => {
+	      this.createCanvas();
+      }, 200)
+    });
+  }
 
   componentDidMount() {
-	  this.createCanvas();
+    this.createImage();
   }
+
   render() {
     return (
       <Container>

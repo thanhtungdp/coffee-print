@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Col from "reactstrap/lib/Col";
 import styled from "styled-components";
 import ImageForm from "./ImageForm";
 

@@ -1,14 +1,23 @@
 import $ from "jquery";
-import paperSize from "config/paperSize";
+import { getPageSizePx, getPageSize, mmToPx } from "utils/page";
+import { IMAGE_SIZE_DISPLAY } from "config/paperSize";
 
 export function PrintElem(elem, callback) {
+	const pageDefaultMM = getPageSize();
+	const pageSize = getPageSizePx();
   let styleHtml = $("style")[0].outerHTML;
   let htmlContent = document.getElementById(elem).outerHTML;
   var mywindow = window.open(
     "",
     "PRINT",
-    `width=${paperSize.SIZE.width},height=${paperSize.SIZE.height}`
+    `width=${pageSize.width},height=${pageSize.height}`
   );
+  const percentReal = pageDefaultMM.circleSize / IMAGE_SIZE_DISPLAY;
+  const percentAbtract = 1 - percentReal;
+  const distanceAbtract = percentAbtract * IMAGE_SIZE_DISPLAY / 2;
+
+  const pxDistanceAbtract = mmToPx(distanceAbtract);
+
   let htmlDocument = `
 		<html>
 			<head>
@@ -16,15 +25,19 @@ export function PrintElem(elem, callback) {
 				${styleHtml}
 				<style>
 				    #paperSize{
-				      width: ${paperSize.SIZE.height}px;
-				      height: ${paperSize.SIZE.width}px;
+				      width: ${pageSize.height}px;
+				      height: ${pageSize.width}px;
 				      background-color: red;
 				      position: relative;
 				    }
 				    #imageWrap{
 				      position: absolute;
-				      right: ${paperSize.SIZE.paddingRight}px;
-				      bottom: ${paperSize.SIZE.paddingBottom}px;
+				      right: ${pageSize.paddingRight - pxDistanceAbtract}px;
+				      bottom: ${pageSize.paddingBottom - pxDistanceAbtract}px;
+				    }
+				    #imageResize{
+				      transform: scale(${pageDefaultMM.circleSize / IMAGE_SIZE_DISPLAY});
+				      transform-origin: center center;
 				    }
 				    html, body, div, span, applet, object, iframe,
             h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -90,10 +103,10 @@ export function PrintElem(elem, callback) {
   setTimeout(() => {
     mywindow.print();
     setTimeout(() => {
-      mywindow.close();
-      callback();
+      // mywindow.close();
+      //callback();
     }, 100);
-  }, 300);
+  }, 200);
 
   return true;
 }

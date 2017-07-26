@@ -40,11 +40,11 @@ const Button = styled(ButtonStyle)`
   padding: 15px 20px;
   width: 100%;
   font-size: 16px;
-  color: #ffffff;
-  background-color: ${props => (props.customColor ? props.customColor : "#3498db")};
+  color: #ffffff !important;
+  background-color: ${props => (props.customColor ? props.customColor : "#3498db")} !important;
   &:hover, &:focus{
-    background-color: ${props => (props.customColor ? props.customColor : "#3498db")};
-    color: #ffffff;
+    background-color: ${props => (props.customColor ? props.customColor : "#3498db")} !important;
+    color: #ffffff !important;
   }
   border-radius: 5px;
   border: 0px;
@@ -55,12 +55,12 @@ const ButtonSelectImage = styled(ButtonStyle)`
   width: 100%;
   font-size: 16px;
   color: #ffffff;
-  border: 2px dashed #ffffff;
+  border: 2px dashed #ffffff !important;
   &:hover, &:focus{
-    background-color: transparent;
+    background-color: transparent !important;
     color: #ffffff;
   }
-  background-color: transparent;
+  background-color: transparent !important;
 `;
 
 const ImagePreview = styled.img`
@@ -187,7 +187,7 @@ export default class ImageForm extends Component {
       <div className="form-group">
         {!this.state.imagePreview
           ? <ButtonSelectImage
-              customColor="#2ecc71"
+              color="primary"
               onClick={this.handleClickBtnImage}
             >
               <i className="icon-picture" /> Chọn ảnh
