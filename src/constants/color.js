@@ -3,7 +3,6 @@ import color from "color";
 export const SHAPE = {
   RED: "#EB5C55",
   ORANGE: "#F6A623",
-  YELLOW: "",
   PURPLE: "#A076C5",
   BLACK: "#3B3B3B",
   GREEN: "#2ECC71",

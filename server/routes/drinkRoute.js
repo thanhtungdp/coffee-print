@@ -1,9 +1,10 @@
 import express from "express";
 import DrinkModel from "../models/drink";
+import authMiddleware from "../middlewares/authMiddleware";
 
 var router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const { name } = req.body;
   let drink = new DrinkModel({ name });
   if (!name) {
@@ -18,7 +19,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+router.put("/", authMiddleware, async (req, res) => {
   const { name, id } = req.body;
   let drink = await DrinkModel.findOne({ _id: id });
   if (drink && !name) {
@@ -28,7 +29,7 @@ router.put("/", async (req, res) => {
   } else res.json({ error: true });
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   await DrinkModel.findOneAndRemove({ _id: req.params.id });
   res.json({ success: true });
 });

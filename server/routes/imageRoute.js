@@ -1,6 +1,7 @@
 import express from "express";
 import slug from "slug";
 import Pagination from "pagination-js";
+import authMiddleware from "../middlewares/authMiddleware";
 import ImageModel from "../models/image";
 import imageType from "../../src/constants/imageType";
 import multerUpload from "../config/multerUpload";
@@ -28,7 +29,7 @@ router.post("/", multerUpload.single("image"), async (req, res) => {
   }
 });
 
-router.put("/print", async (req, res) => {
+router.put("/print", authMiddleware, async (req, res) => {
   const { id } = req.body;
   let image = await ImageModel.findOne({ _id: id });
   if (!image) {
@@ -40,7 +41,7 @@ router.put("/print", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/", authMiddleware, async (req, res) => {
   await ImageModel.findOneAndRemove({ _id: req.body.id });
   res.json({ success: true });
 });

@@ -1,9 +1,19 @@
 import { PATH_UPLOADS, PATH_UPLOADS_THUMBNAIL } from "../src/config";
+import jwt from 'jsonwebtoken';
+import {SECRET} from "./config";
+
 var easyimg = require("easyimage");
 
 export function getFileType(fileName) {
   const strs = fileName.split(".");
   return strs[strs.length - 1];
+}
+
+export function createToken() {
+	var token = jwt.sign({isAdmin: true}, SECRET, {
+		expiresIn: '316days' // expires in 24 hours
+	});
+	return token;
 }
 
 export function cropImageThumbnail(fileName) {

@@ -28,7 +28,8 @@ export default class ImageEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
     name: PropTypes.string,
-    onPrinted: PropTypes.func
+    onPrinted: PropTypes.func,
+	  onSetting: PropTypes.func
   };
 
   state = {
@@ -60,6 +61,7 @@ export default class ImageEditor extends PureComponent {
           isPreview={this.state.isPreview}
           onPreview={this.onPressPreview.bind(this)}
           onPrint={this.onPrint.bind(this)}
+          onSetting={this.props.onSetting}
         />
         <MainContainer>
           <ImageResize

@@ -1,17 +1,17 @@
 import axios from "axios";
-// import { getAuthToken } from "utils/auth";
+import { getAuthToken } from "utils/auth";
 
 const getHeaders = () => {
   var headers = {
     Accept: "application/json"
   };
   if (typeof localStorage !== "undefined") {
-    // if (getAuthToken()) {
-    //   headers = {
-    //     ...headers,
-    //     Authorization: getAuthToken(true)
-    //   };
-    // }
+    if (getAuthToken()) {
+      headers = {
+        ...headers,
+        Authorization: "JWT " + getAuthToken()
+      };
+    }
   }
   return headers;
 };

@@ -48,6 +48,7 @@ export default class Toolbar extends PureComponent {
   static propTypes = {
     onPreview: PropTypes.func,
     onPrint: PropTypes.func,
+	  onSetting: PropTypes.func,
     isPreview: PropTypes.bool,
     name: PropTypes.string
   };
@@ -63,6 +64,10 @@ export default class Toolbar extends PureComponent {
           <Clearfix />
           <ButtonItem href="#" onClick={this.props.onPrint}>
             <i className="icon-printer" /> In ảnh
+          </ButtonItem>
+          <Clearfix />
+          <ButtonItem href="#" onClick={this.props.onSetting}>
+            <i className="icon-film" /> Thiết lập kích thước
           </ButtonItem>
         </Menu>
         <SpanName>{this.props.name}</SpanName>

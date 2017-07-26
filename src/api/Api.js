@@ -37,6 +37,10 @@ export function deleteDrink(id) {
   return deleteFetch(getUrl(`drink/${id}`), { id });
 }
 
+export function authLogin({ username, password }) {
+  return postFetch(getUrl("auth/login"), { username, password });
+}
+
 export default {
   getImageList,
   uploadImage,
@@ -44,5 +48,6 @@ export default {
   getDrinks,
   createDrink,
   deleteDrink,
-  printImage
+  printImage,
+  authLogin
 };

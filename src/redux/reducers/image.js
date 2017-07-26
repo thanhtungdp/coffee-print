@@ -37,8 +37,9 @@ export default function createReducer(state = initialState, action) {
 function cleanDataImageList(data) {
   return data.map(item => ({
     ...item,
-    image: UPLOADS_FOLDER_NAME + "/" + item.fileName,
-    imageThumbnail: UPLOADS_FOLDER_NAME +
+    image:  UPLOADS_FOLDER_NAME + "/" + item.fileName,
+    imageThumbnail:
+      UPLOADS_FOLDER_NAME +
       "/" +
       UPLOADS_THUMBNAIL_FOLDER_NAME +
       "/" +
