@@ -12,7 +12,8 @@ import {
   getImageList,
   loadMoreImageList,
   deleteImage,
-  deleteAllImage
+  deleteAllImage,
+  restoreAllImage
 } from "redux/actions/imageAction";
 import tabFilter from "constants/imageType";
 import { SHAPE } from "constants/color";
@@ -24,13 +25,18 @@ const GalleryContainer = styled.div`
   display: flex;
 `;
 
+const FlexTool = styled.div`
+  display: flex;
+`;
+
 const Remove = styled.a`
   display: block;
   text-align: center;
-  background-color: ${SHAPE.RED};
+  background-color: ${props => (props.color ? props.color : SHAPE.RED)};
   padding: 1px;
   color: #ffffff !important;
   font-size: 12px;
+  flex: 1;
   &:hover{
     color: #ffffff !important;
     cursor: pointer;
@@ -62,7 +68,8 @@ const TABS = [
     getImageList,
     loadMoreImageList,
     deleteImage,
-    deleteAllImage
+    deleteAllImage,
+    restoreAllImage
   }
 )
 @autobind
@@ -73,7 +80,8 @@ export default class Gallery extends PureComponent {
     getImageList: PropTypes.func,
     loadMoreImageList: PropTypes.func,
     deleteImage: PropTypes.func,
-    deleteAllImage: PropTypes.func
+    deleteAllImage: PropTypes.func,
+    restoreAllImage: PropTypes.func
   };
 
   state = {
@@ -126,6 +134,17 @@ export default class Gallery extends PureComponent {
     }
   }
 
+  handleRestoreAll(e) {
+    e.preventDefault();
+    let sConfrim = confirm("Bạn có muốn khôi phục không");
+    if (sConfrim) {
+      this.props.restoreAllImage();
+      setTimeout(() => {
+        this.getImages();
+      }, 500);
+    }
+  }
+
   getDataFilter() {
     if (this.state.currentTab.value === tabFilter.ALL) {
       return this.props.images;
@@ -155,9 +174,14 @@ export default class Gallery extends PureComponent {
           currentTab={this.state.currentTab}
           onChange={this.handleChangeTab}
         />
-        <Remove onClick={this.handleDeleteAll}>
-          <i className="icon-trash" /> Xóa tất cả
-        </Remove>
+        <FlexTool>
+          <Remove onClick={this.handleDeleteAll}>
+            <i className="icon-trash" /> Xóa tất cả
+          </Remove>
+          <Remove color={SHAPE.GREEN} onClick={this.handleRestoreAll}>
+            <i className="icon-refresh" /> Khôi phục
+          </Remove>
+        </FlexTool>
       </GalleryContainer>
     );
   }

@@ -46,18 +46,17 @@ router.delete("/:imageId", authMiddleware, async (req, res) => {
   if (!image) {
     res.json({ success: false, message: "Image does'n exists" });
   } else {
-    image.type = imageType.DELETED;
+    image.isTrashed = true;
     await image.save();
     res.json({ success: true });
   }
 });
 
 router.post("/delete-all", authMiddleware, async (req, res) => {
-  console.log("delete-all");
   ImageModel.update(
     {},
-    { $set: { type: imageType.DELETED } },
-	  { multi: true },
+    { $set: { isTrashed: true } },
+    { multi: true },
     (err, result) => {
       console.log(err);
       console.log(result);
@@ -67,18 +66,26 @@ router.post("/delete-all", authMiddleware, async (req, res) => {
   //res.json({success: true});
 });
 
+router.post("/restore-all", authMiddleware, async (req, res) => {
+  ImageModel.update(
+    {},
+    { $set: { isTrashed: false } },
+    { multi: true },
+    (err, result) => {
+      res.json({ success: true });
+    }
+  );
+});
+
 router.get("/", async (req, res) => {
   const { type } = req.query;
   // await ImageModel.find({}).remove();
   // default query all
-  let objectQuery = {
-    $or: [{ type: imageType.NEWS }, { type: imageType.PRINTED }]
-  };
-
+  let objectQuery = { isTrashed: false };
   // Query only type
   if (type !== imageType.ALL && type) {
     objectQuery = {
-      type: type
+      $and: [{ type: type }, { isTrashed: false }]
     };
   }
 

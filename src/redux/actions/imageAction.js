@@ -3,6 +3,7 @@ import { AWAIT_MARKER } from "redux-await";
 export const GET_IMAGE_LIST = "IMAGE/get-image-list";
 export const LOAD_MORE_IMAGE_LIST = "IMAGE/load-more-image-list";
 export const SET_CURRENT_IMAGE = "IMAGE/set-current-image";
+export const RESTORE_ALL_IMAGE = "IMAGE/restor-image";
 export const DELETE_IMAGE = "IMAGE/delete-image";
 export const DELETE_ALL_IMAGE = "IMAGE/delete-all-image";
 export const CLEAR_CURRENT_IMAGE = "IMAGE/clear-current-image";
@@ -61,6 +62,13 @@ export function deleteAllImage(){
 	DefaultApi.deleteAllImage();
   return {
     type: DELETE_ALL_IMAGE
+  }
+}
+
+export function restoreAllImage(){
+  DefaultApi.restoreAllImage();
+  return {
+    type: RESTORE_ALL_IMAGE
   }
 }
 

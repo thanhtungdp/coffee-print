@@ -45,7 +45,9 @@ export default class ImageEditor extends PureComponent {
   onPrint(e) {
     e.preventDefault();
     this.setState({ isPreview: true }, () => {
-      PrintElem("imageResize", this.props.onPrinted);
+      setTimeout(() => {
+	      PrintElem("imageResize", this.props.onPrinted);
+      }, 200)
     });
   }
 
