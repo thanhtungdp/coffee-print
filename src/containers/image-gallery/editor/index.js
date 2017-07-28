@@ -38,7 +38,8 @@ export default class Editor extends Component {
     isModalSetting: false
   };
 
-  reset() {
+  reset(e) {
+    if(e) e.preventDefault();
     this.setState({ isShow: false }, () => {
       setTimeout(() => {
         this.setState({ isShow: true });
@@ -77,6 +78,7 @@ export default class Editor extends Component {
           <ImageEditor
             onPrinted={this.handleOnPrinted}
             onSetting={this.toggleModalSetting}
+            onReset={this.reset}
             size={toPx(`${paperSize.IMAGE_SIZE_DISPLAY}mm`)}
             imageUrl={currentImage.image}
             name={currentImage.name}

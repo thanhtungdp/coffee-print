@@ -10,15 +10,31 @@ import TabFilter from "./TabFilter";
 import {
   setCurrentImage,
   getImageList,
-  loadMoreImageList
+  loadMoreImageList,
+  deleteImage,
+  deleteAllImage
 } from "redux/actions/imageAction";
 import tabFilter from "constants/imageType";
+import { SHAPE } from "constants/color";
 
 const GalleryContainer = styled.div`
   width: 350px;
   background: ${theme.GALLERY};
   flex-direction: column;
   display: flex;
+`;
+
+const Remove = styled.a`
+  display: block;
+  text-align: center;
+  background-color: ${SHAPE.RED};
+  padding: 1px;
+  color: #ffffff !important;
+  font-size: 12px;
+  &:hover{
+    color: #ffffff !important;
+    cursor: pointer;
+  }
 `;
 
 const TABS = [
@@ -41,7 +57,13 @@ const TABS = [
     images: state.image.list.data,
     pagination: state.image.list.pagination
   }),
-  { setCurrentImage, getImageList, loadMoreImageList }
+  {
+    setCurrentImage,
+    getImageList,
+    loadMoreImageList,
+    deleteImage,
+    deleteAllImage
+  }
 )
 @autobind
 export default class Gallery extends PureComponent {
@@ -49,7 +71,9 @@ export default class Gallery extends PureComponent {
     images: GalleryList.propTypes.images,
     setCurrentImage: PropTypes.func,
     getImageList: PropTypes.func,
-    loadMoreImageList: PropTypes.func
+    loadMoreImageList: PropTypes.func,
+    deleteImage: PropTypes.func,
+    deleteAllImage: PropTypes.func
   };
 
   state = {
@@ -84,6 +108,24 @@ export default class Gallery extends PureComponent {
     this.props.setCurrentImage(image);
   }
 
+  handleDeleteImage(e, image) {
+    e.preventDefault();
+    let sConfrim = confirm("Bạn có chắc chắc muốn xóa không");
+    if (sConfrim) {
+      this.props.deleteImage(image.id);
+    }
+  }
+
+  handleDeleteAll(e) {
+    e.preventDefault();
+    let sConfrim = confirm(
+      "Điều này sẽ xóa tất cả các ảnh hiện tại, bạn có chắc chắn muốn xóa không"
+    );
+    if (sConfrim) {
+      this.props.deleteAllImage();
+    }
+  }
+
   getDataFilter() {
     if (this.state.currentTab.value === tabFilter.ALL) {
       return this.props.images;
@@ -104,6 +146,7 @@ export default class Gallery extends PureComponent {
         <GalleryList
           images={this.getDataFilter()}
           onChooseImage={this.handleChooseImage}
+          onDeleteImage={this.handleDeleteImage}
           onLoadmore={this.handleLoadmore}
           isLoadmore={checkLoadMore(this.props.pagination)}
         />
@@ -112,6 +155,9 @@ export default class Gallery extends PureComponent {
           currentTab={this.state.currentTab}
           onChange={this.handleChangeTab}
         />
+        <Remove onClick={this.handleDeleteAll}>
+          <i className="icon-trash" /> Xóa tất cả
+        </Remove>
       </GalleryContainer>
     );
   }
