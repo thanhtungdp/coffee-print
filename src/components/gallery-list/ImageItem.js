@@ -2,14 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import imageType from "constants/imageType";
+import { SHAPE } from "constants/color";
 
-const ImageItemContainer = styled.a`
+const ImageItemContainer = styled.div`
   width: 100%;
   height: 100%;
   background-size: cover;
   ${props => (props.image ? `background-image: url(${props.image});` : "")};
   position: relative;
   display: block;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 const Absolute = styled.div`
@@ -53,10 +57,34 @@ const Label = styled.span`
   white-space: nowrap;
 `;
 
-export default function ImageItem({ type, name, imageThumbnail, onClick }) {
+const Close = styled.a`
+  position: absolute;
+  background-color: ${SHAPE.RED};
+  color: #ffffff !important;
+  top: 0px;
+  right: 0px;
+  font-size: 10px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover{
+    text-decoration: none;
+    color: #ffffff !important;
+  }
+`;
+
+export default function ImageItem({
+  type,
+  name,
+  imageThumbnail,
+  onClick,
+  onDelete
+}) {
   return (
-    <ImageItemContainer href="#" onClick={onClick} image={imageThumbnail}>
-      <Absolute>
+    <ImageItemContainer href="#" image={imageThumbnail}>
+      <Absolute onClick={onClick}>
         {type === imageType.PRINTED &&
           <OverlayPrinted>
             <i className="icon-check" /> &nbsp; Đã in
@@ -65,6 +93,9 @@ export default function ImageItem({ type, name, imageThumbnail, onClick }) {
           <Label>{name}</Label>
         </WrapLabel>
       </Absolute>
+      <Close onClick={onDelete}>
+        <i className="icon-trash" />
+      </Close>
     </ImageItemContainer>
   );
 }

@@ -41,18 +41,47 @@ router.put("/print", authMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/", authMiddleware, async (req, res) => {
-  await ImageModel.findOneAndRemove({ _id: req.body.id });
-  res.json({ success: true });
+router.delete("/:imageId", authMiddleware, async (req, res) => {
+  let image = await ImageModel.findOne({ _id: req.params.imageId });
+  if (!image) {
+    res.json({ success: false, message: "Image does'n exists" });
+  } else {
+    image.type = imageType.DELETED;
+    await image.save();
+    res.json({ success: true });
+  }
+});
+
+router.post("/delete-all", authMiddleware, async (req, res) => {
+  console.log("delete-all");
+  ImageModel.update(
+    {},
+    { $set: { type: imageType.DELETED } },
+	  { multi: true },
+    (err, result) => {
+      console.log(err);
+      console.log(result);
+      res.json({ success: true });
+    }
+  );
+  //res.json({success: true});
 });
 
 router.get("/", async (req, res) => {
   const { type } = req.query;
   // await ImageModel.find({}).remove();
-  let objectQuery = {};
+  // default query all
+  let objectQuery = {
+    $or: [{ type: imageType.NEWS }, { type: imageType.PRINTED }]
+  };
+
+  // Query only type
   if (type !== imageType.ALL && type) {
-    objectQuery.type = type;
+    objectQuery = {
+      type: type
+    };
   }
+
   const totalImages = await ImageModel.find(objectQuery).count();
   let pagination = new Pagination(req.query, totalImages).getPagination();
   const images = await ImageModel.find(objectQuery)

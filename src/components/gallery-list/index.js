@@ -32,6 +32,7 @@ export default class GalleryList extends PureComponent {
   static propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape(ImageItem.propTypes)),
     onChooseImage: PropTypes.func,
+    onDeleteImage: PropTypes.func,
     onLoadmore: PropTypes.func,
     isLoadmore: PropTypes.bool
   };
@@ -45,6 +46,7 @@ export default class GalleryList extends PureComponent {
               <ImageItem
                 {...image}
                 onClick={e => this.props.onChooseImage(e, image)}
+                onDelete={e => this.props.onDeleteImage(e, image)}
               />
             </ImageItemContainer>
           ))}

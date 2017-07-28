@@ -21,9 +21,14 @@ export function printImage(id) {
   return putFetch(getUrl("image/print"), { id });
 }
 
-export function deleteImage(id) {
-  return deleteFetch(getUrl("image"), { id });
+export function deleteImage(imageId) {
+  return deleteFetch(getUrl(`image/${imageId}`));
 }
+
+export function deleteAllImage() {
+	return postFetch(getUrl(`image/delete-all`));
+}
+
 
 export function getDrinks() {
   return getFetch(getUrl("drink"));
@@ -45,6 +50,7 @@ export default {
   getImageList,
   uploadImage,
   deleteImage,
+	deleteAllImage,
   getDrinks,
   createDrink,
   deleteDrink,

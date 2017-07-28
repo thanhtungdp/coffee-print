@@ -3,6 +3,8 @@ import { AWAIT_MARKER } from "redux-await";
 export const GET_IMAGE_LIST = "IMAGE/get-image-list";
 export const LOAD_MORE_IMAGE_LIST = "IMAGE/load-more-image-list";
 export const SET_CURRENT_IMAGE = "IMAGE/set-current-image";
+export const DELETE_IMAGE = "IMAGE/delete-image";
+export const DELETE_ALL_IMAGE = "IMAGE/delete-all-image";
 export const CLEAR_CURRENT_IMAGE = "IMAGE/clear-current-image";
 export const PRINT_IMAGE = "IMAGE/print-image";
 
@@ -47,10 +49,27 @@ export function clearCurrentImage() {
   };
 }
 
+export function deleteImage(imageId){
+  DefaultApi.deleteImage(imageId);
+  return {
+    type: DELETE_IMAGE,
+	  imageId
+  }
+}
+
+export function deleteAllImage(){
+	DefaultApi.deleteAllImage();
+  return {
+    type: DELETE_ALL_IMAGE
+  }
+}
+
 export default {
   getImageList,
   loadMoreImageList,
   setCurrentImage,
   clearCurrentImage,
-  printImage
+  printImage,
+  deleteImage,
+	deleteAllImage
 };

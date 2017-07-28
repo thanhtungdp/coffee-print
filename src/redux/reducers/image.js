@@ -1,9 +1,11 @@
 import {
   SET_CURRENT_IMAGE,
   GET_IMAGE_LIST,
+  DELETE_IMAGE,
   LOAD_MORE_IMAGE_LIST,
   CLEAR_CURRENT_IMAGE,
-  PRINT_IMAGE
+  PRINT_IMAGE,
+  DELETE_ALL_IMAGE
 } from "../actions/imageAction";
 import update from "react-addons-update";
 import { UPLOADS_FOLDER_NAME, UPLOADS_THUMBNAIL_FOLDER_NAME } from "config";
@@ -29,6 +31,10 @@ export default function createReducer(state = initialState, action) {
       return clearCurrentImage(state);
     case PRINT_IMAGE:
       return printImage(state, action);
+    case DELETE_IMAGE:
+      return deleteImage(state, action);
+    case DELETE_ALL_IMAGE:
+      return deleteAllImage(state);
     default:
       return state;
   }
@@ -37,9 +43,8 @@ export default function createReducer(state = initialState, action) {
 function cleanDataImageList(data) {
   return data.map(item => ({
     ...item,
-    image:  UPLOADS_FOLDER_NAME + "/" + item.fileName,
-    imageThumbnail:
-      UPLOADS_FOLDER_NAME +
+    image: UPLOADS_FOLDER_NAME + "/" + item.fileName,
+    imageThumbnail: UPLOADS_FOLDER_NAME +
       "/" +
       UPLOADS_THUMBNAIL_FOLDER_NAME +
       "/" +
@@ -103,6 +108,29 @@ function printImage(state, { imageId }) {
             $set: imageType.PRINTED
           }
         }
+      }
+    }
+  });
+}
+
+function deleteImage(state, { imageId }) {
+  let imageIndex = state.list.data.findIndex(item => item.id === imageId);
+  if (imageIndex < 0) return state;
+  return update(state, {
+    list: {
+      data: {
+        $splice: [[imageIndex, 1]]
+      }
+    }
+  });
+}
+
+function deleteAllImage(state) {
+  return update(state, {
+    list: {
+      $set: {
+        data: [],
+        pagination: {}
       }
     }
   });
