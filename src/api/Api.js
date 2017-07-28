@@ -29,6 +29,9 @@ export function deleteAllImage() {
 	return postFetch(getUrl(`image/delete-all`));
 }
 
+export function restoreAllImage() {
+	return postFetch(getUrl(`image/restore-all`));
+}
 
 export function getDrinks() {
   return getFetch(getUrl("drink"));
@@ -51,6 +54,7 @@ export default {
   uploadImage,
   deleteImage,
 	deleteAllImage,
+	restoreAllImage,
   getDrinks,
   createDrink,
   deleteDrink,

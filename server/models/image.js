@@ -10,7 +10,8 @@ const Image = new mongoose.Schema(
     tableNumber: Number,
     drinkId: { type: Schema.ObjectId, ref: "Drink" },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
+    isTrashed: {type: Boolean, default: false}
   },
   {
     id: true

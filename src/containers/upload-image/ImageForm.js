@@ -225,10 +225,13 @@ export default class ImageForm extends Component {
         <div className="line" />
         {this._SelectImage()}
         <div className="line" />
-        <Button onClick={this.handleSubmit.bind(this)}>
+        <Button
+          disabled={this.state.uploading}
+          onClick={this.handleSubmit.bind(this)}
+        >
           {this.state.uploading
             ? <span>
-                Đang gửi lên <i className="icon-options" />
+                Đang gửi lên &nbsp; <i className="icon-options" />
               </span>
             : <span>
                 <i className="icon-cloud-upload" /> Tải lên ngay

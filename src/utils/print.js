@@ -18,27 +18,26 @@ export function PrintElem(elem, callback) {
 
   const pxDistanceAbtract = mmToPx(distanceAbtract);
 
+  const paddingLeft =
+    pageDefaultMM.height -
+    pageDefaultMM.paddingRight -
+    distanceAbtract -
+    pageDefaultMM.circleSize / 2;
+  const paddingTop =
+    pageDefaultMM.width -
+    pageDefaultMM.paddingBottom -
+    distanceAbtract -
+    pageDefaultMM.circleSize / 2;
+
+  console.log(paddingLeft);
+  console.log(paddingTop);
+
   let htmlDocument = `
 		<html>
 			<head>
 				<title>Print</title>
 				${styleHtml}
 				<style>
-				    #paperSize{
-				      width: ${pageSize.height}px;
-				      height: ${pageSize.width}px;
-				      background-color: red;
-				      position: relative;
-				    }
-				    #imageWrap{
-				      position: absolute;
-				      right: ${pageSize.paddingRight - pxDistanceAbtract}px;
-				      bottom: ${pageSize.paddingBottom - pxDistanceAbtract}px;
-				    }
-				    #imageResize{
-				      transform: scale(${pageDefaultMM.circleSize / IMAGE_SIZE_DISPLAY});
-				      transform-origin: center center;
-				    }
 				    html, body, div, span, applet, object, iframe,
             h1, h2, h3, h4, h5, h6, p, blockquote, pre,
             a, abbr, acronym, address, big, cite, code,
@@ -64,24 +63,22 @@ export function PrintElem(elem, callback) {
             footer, header, hgroup, menu, nav, section {
               display: block;
             }
-            body {
-              line-height: 1;
-            }
-            ol, ul {
-              list-style: none;
-            }
-            blockquote, q {
-              quotes: none;
-            }
-            blockquote:before, blockquote:after,
-            q:before, q:after {
-              content: '';
-              content: none;
-            }
-            table {
-              border-collapse: collapse;
-              border-spacing: 0;
-            }
+            #paperSize{
+				      width: ${pageSize.height}px;
+				      height: ${pageSize.width}px;
+				      background-color: red;
+				      position: relative;
+				    }
+				    #imageWrap{
+				      position: absolute;
+				      transform: translateX(${mmToPx(paddingLeft)}px) translateY(${mmToPx(paddingTop)}px);
+				      //right: ${pageSize.paddingRight - pxDistanceAbtract}px;
+				      //bottom: ${pageSize.paddingBottom - pxDistanceAbtract}px;
+				    }
+				    #imageResize{
+				      transform: scale(${pageDefaultMM.circleSize / IMAGE_SIZE_DISPLAY});
+				      transform-origin: center center;
+				    }
         </style>
 			</head>	
 			<body>
@@ -103,7 +100,7 @@ export function PrintElem(elem, callback) {
       mywindow.close();
       callback();
     }, 100);
-  }, 1000);
+  }, 500);
 
   return true;
 }
