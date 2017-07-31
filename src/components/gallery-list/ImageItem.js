@@ -44,7 +44,7 @@ const WrapLabel = styled.div`
   left: 0px;
   right: 0px;
   padding: 0px 5px;
-  height: 20px;
+  height: 30px;
   display: flex;
   align-items: center;
   background-color: rgba(0,0,0,.3);
@@ -53,7 +53,7 @@ const WrapLabel = styled.div`
 
 const Label = styled.span`
   color: #ffffff;
-  font-size: 10px;
+  font-size: 14px;
   white-space: nowrap;
 `;
 

@@ -19,7 +19,7 @@ import tabFilter from "constants/imageType";
 import { SHAPE } from "constants/color";
 
 const GalleryContainer = styled.div`
-  width: 350px;
+  width: 40%;
   background: ${theme.GALLERY};
   flex-direction: column;
   display: flex;
@@ -33,7 +33,7 @@ const Remove = styled.a`
   display: block;
   text-align: center;
   background-color: ${props => (props.color ? props.color : SHAPE.RED)};
-  padding: 1px;
+  padding: 2px;
   color: #ffffff !important;
   font-size: 12px;
   flex: 1;

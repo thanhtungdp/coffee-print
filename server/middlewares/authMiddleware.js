@@ -23,7 +23,8 @@ export default (req, res, next) => {
           message: "Failed to authenticate token"
         });
       } else {
-        if (payload.isAdmin) {
+        req.isAdmin = payload.isAdmin;
+        if (payload.isLogin) {
           next();
         } else {
           return res.json({

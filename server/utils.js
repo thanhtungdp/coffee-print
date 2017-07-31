@@ -9,8 +9,8 @@ export function getFileType(fileName) {
   return strs[strs.length - 1];
 }
 
-export function createToken() {
-	var token = jwt.sign({isAdmin: true}, SECRET, {
+export function createToken(isAdmin = false) {
+	var token = jwt.sign({isAdmin: isAdmin, isLogin: true}, SECRET, {
 		expiresIn: '316days' // expires in 24 hours
 	});
 	return token;

@@ -14,9 +14,12 @@ const AppContainer = connect(state => ({}))(Layout);
 export default () => {
   return (
     <Route path="/" component={AppContainer}>
-      <IndexRoute component={CheckIsAdmin(Home)} />
-      <Route path="gallery-manager" component={CheckIsAdmin(ImageGallery)} />
-      <Route path="drink-manager" component={CheckIsAdmin(DrinkManager)} />
+      <IndexRoute component={CheckIsAdmin()(Home)} />
+      <Route path="gallery-manager" component={CheckIsAdmin()(ImageGallery)} />
+      <Route
+        path="drink-manager"
+        component={CheckIsAdmin({ checkIsAdmin: true })(DrinkManager)}
+      />
       <Route path="image-upload" component={UploadImage} />
       <Route path="login" component={Login} />
     </Route>

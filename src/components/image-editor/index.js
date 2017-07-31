@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { autobind } from "core-decorators";
 import ImageResize from "./ImageResize";
 import Toolbar from "./toolbar";
+import Clearfix from '../elements/clearfix';
 import Slider from "./toolbar/Brightness";
 import { PrintElem } from "utils/print";
 
@@ -22,6 +23,11 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const SpanName = styled.p`
+  color: #ffffff;
+  text-align: center;
+`
 
 @autobind
 export default class ImageEditor extends PureComponent {
@@ -76,6 +82,10 @@ export default class ImageEditor extends PureComponent {
             size={this.props.size}
           />
         </MainContainer>
+        <div>
+          <Clearfix height={24}/>
+          <SpanName>{this.props.name}</SpanName>
+        </div>
         <Slider onChange={this.handleChangeSlider} />
       </ImageEditorContainer>
     );
