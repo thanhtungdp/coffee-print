@@ -28,10 +28,6 @@ const ButtonItem = styled.a`
   }
 `;
 
-const SpanName = styled.span`
-  color: #ffffff;
-`;
-
 const ButtonCrop = ({ isPreview, onClick }) => (
   <ButtonItem href="#" onClick={onClick}>
     {isPreview
@@ -58,6 +54,16 @@ export default class Toolbar extends PureComponent {
     return (
       <ToolbarContainer>
         <Menu>
+          <ButtonItem href="#" onClick={this.props.onReset}>
+            <i className="icon-refresh" /> Đặt lại
+          </ButtonItem>
+          <Clearfix />
+          <ButtonItem href="#" onClick={this.props.onSetting}>
+            <i className="icon-film" /> Thiết lập trang
+          </ButtonItem>
+          <Clearfix />
+        </Menu>
+        <Menu>
           <ButtonCrop
             isPreview={this.props.isPreview}
             onClick={this.props.onPreview}
@@ -67,17 +73,6 @@ export default class Toolbar extends PureComponent {
             <i className="icon-printer" /> In ảnh
           </ButtonItem>
           <Clearfix />
-        </Menu>
-        <Menu>
-          <ButtonItem href="#" onClick={this.props.onReset}>
-            <i className="icon-refresh" /> Đặt lại
-          </ButtonItem>
-          <Clearfix />
-          <ButtonItem href="#" onClick={this.props.onSetting}>
-            <i className="icon-film" /> Thiết lập trang
-          </ButtonItem>
-          <Clearfix />
-          <SpanName>{this.props.name}</SpanName>
         </Menu>
       </ToolbarContainer>
     );

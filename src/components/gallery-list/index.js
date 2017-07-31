@@ -10,7 +10,7 @@ const GalleryListContainer = styled.div`
 
 const ImageItemContainer = styled.div`
   width: 33.33%;
-  height: 116.67px;
+  height: 175px;
   padding: 8px;
   float: left;
 `;

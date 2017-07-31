@@ -4,7 +4,15 @@ import authMiddleware from "../middlewares/authMiddleware";
 
 var router = express.Router();
 
-router.post("/", authMiddleware, async (req, res) => {
+const adminMiddleware = (req, res, next) => {
+  if (req.isAdmin) {
+    next();
+  } else {
+    res.json({ error: true, message: "Not admin permission" });
+  }
+};
+
+router.post("/", authMiddleware, adminMiddleware, async (req, res) => {
   const { name } = req.body;
   let drink = new DrinkModel({ name });
   if (!name) {
@@ -19,7 +27,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.put("/", authMiddleware, async (req, res) => {
+router.put("/", authMiddleware, adminMiddleware, async (req, res) => {
   const { name, id } = req.body;
   let drink = await DrinkModel.findOne({ _id: id });
   if (drink && !name) {
@@ -29,7 +37,7 @@ router.put("/", authMiddleware, async (req, res) => {
   } else res.json({ error: true });
 });
 
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   await DrinkModel.findOneAndRemove({ _id: req.params.id });
   res.json({ success: true });
 });

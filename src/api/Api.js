@@ -49,6 +49,10 @@ export function authLogin({ username, password }) {
   return postFetch(getUrl("auth/login"), { username, password });
 }
 
+export function authMe() {
+	return getFetch(getUrl("auth/me"));
+}
+
 export default {
   getImageList,
   uploadImage,
@@ -59,5 +63,6 @@ export default {
   createDrink,
   deleteDrink,
   printImage,
-  authLogin
+  authLogin,
+	authMe
 };
