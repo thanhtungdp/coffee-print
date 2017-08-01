@@ -69,10 +69,6 @@ export default class Toolbar extends PureComponent {
             onClick={this.props.onPreview}
           />
           <Clearfix />
-          <ButtonItem href="#" onClick={this.props.onPrint}>
-            <i className="icon-printer" /> In ảnh
-          </ButtonItem>
-          <Clearfix />
         </Menu>
       </ToolbarContainer>
     );

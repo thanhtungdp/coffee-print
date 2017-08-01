@@ -29,7 +29,7 @@ export default class DrinkList extends PureComponent {
           <thead>
             <tr>
               <th>STT</th>
-              <th>Tên đồ uống</th>
+              <th>Tên thức uống</th>
               <th>Hành dộng</th>
             </tr>
           </thead>

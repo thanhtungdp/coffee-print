@@ -1,14 +1,19 @@
 import express from "express";
-import { USERS } from "../../src/constants/userLogin";
+import passwordHash from "password-hash";
 import { createToken } from "../utils";
 import authMiddleware from "../middlewares/authMiddleware";
+import User from "../models/user";
 var router = express.Router();
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = USERS.find(user => user.username === username);
-  if (user && user.password === password) {
-    res.json({ token: createToken(user.isAdmin), isAdmin: req.isAdmin });
+  const user = await User.findOne({ username });
+  if (user) {
+    if (passwordHash.verify(password, user.password)) {
+      res.json({ token: createToken(user.isAdmin), isAdmin: req.isAdmin });
+    } else {
+      res.json({ error: true });
+    }
   } else {
     res.json({ error: true });
   }

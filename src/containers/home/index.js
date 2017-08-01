@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
+import { autobind } from "core-decorators";
+import { push } from "react-router-redux";
 import styled from "styled-components";
+import Button from "reactstrap/lib/Button";
 import { SHAPE } from "constants/color";
+import Logo from "components/logo";
+import { connectAutoBindAction } from "utils/redux";
+import { authLogout } from "redux/actions/userAction";
 
 const HomeContainer = styled.div`
  width: 500px;
  margin-left: auto;
  margin-right: auto;
+ padding-top: 20px
+`;
+const Grid = styled.div`
  display: flex;
  flex-wrap: wrap;
  margin-top: 50px;
  justify-content: space-between;
+ margin-top: 20px;
  @media(max-width: 500px){
    width: 98%;
  }
@@ -44,6 +54,13 @@ const TextSpan = styled.span`
   color: #ffffff;
 `;
 
+@connectAutoBindAction(
+  state => ({
+    isAdmin: state.user.me.isAdmin
+  }),
+  { authLogout, push }
+)
+@autobind
 export default class Home extends Component {
   static propTypes = {};
   renderItem(color, icon, name, path, block = false) {
@@ -54,28 +71,68 @@ export default class Home extends Component {
       </ItemContainer>
     );
   }
-  render() {
+
+  renderForAdmin() {
     return (
-      <HomeContainer>
+      <Grid>
         {this.renderItem(
           SHAPE.GREEN,
           "icon-picture",
-          "Quản lý ảnh",
+          "Quản lý in ảnh",
           "/gallery-manager"
         )}
         {this.renderItem(
           SHAPE.ORANGE,
           "icon-chemistry",
-          "Đồ uống",
+          "Danh mục thức uống",
           "/drink-manager"
         )}
         {this.renderItem(
           SHAPE.PINK,
           "icon-cloud-upload",
           "Upload ảnh",
-          "/image-upload",
-          true
+          "/image-upload"
         )}
+        {this.renderItem(
+          SHAPE.PRIMARY,
+          "icon-people",
+          "Quản lý tài khoản",
+          "/user-manager"
+        )}
+      </Grid>
+    );
+  }
+
+  renderForMember() {
+    return (
+      <Grid>
+        {this.renderItem(
+          SHAPE.GREEN,
+          "icon-picture",
+          "Quản lý in ảnh",
+          "/gallery-manager"
+        )}
+        {this.renderItem(
+          SHAPE.PINK,
+          "icon-cloud-upload",
+          "Upload ảnh",
+          "/image-upload"
+        )}
+      </Grid>
+    );
+  }
+
+  handleLogout() {
+    this.props.authLogout();
+    this.props.push("/login");
+  }
+
+  render() {
+    return (
+      <HomeContainer>
+        <Logo isCenter />
+        {this.props.isAdmin ? this.renderForAdmin() : this.renderForMember()}
+        <Button color="danger" style={{marginTop: '10px'}} block onClick={this.handleLogout}>Đăng xuất</Button>
       </HomeContainer>
     );
   }

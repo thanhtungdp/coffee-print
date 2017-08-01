@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Slider from "react-rangeslider";
 
 const BrightnessContainer = styled.div`
-  padding: 16px 16px;
+  padding: 0px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
