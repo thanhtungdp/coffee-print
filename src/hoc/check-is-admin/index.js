@@ -1,9 +1,8 @@
 import React from "react";
-import { getAuthToken } from "utils/auth";
 import { push } from "react-router-redux";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { connectAutoBindAction } from "utils/redux";
-import Api from "api/Api";
+import { getAuthMe } from "redux/actions/userAction";
 
 const FlexStyle = styled.div`
   width: 100vw;
@@ -11,36 +10,45 @@ const FlexStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
-const checkIsUser = ({checkIsAdmin = false} = {}) => Component => {
-  @connectAutoBindAction(() => ({}), { push })
+const checkIsUser = ({ checkIsAdmin = false } = {}) => Component => {
+  @connectAutoBindAction(
+    state => ({
+      isAdmin: state.user.me.isAdmin,
+      isLogined: state.user.me.isLogined,
+      isChecked: state.user.me.isChecked
+    }),
+    { push, getAuthMe }
+  )
   class ComponentIsAdmin extends React.Component {
-    state = {
-      checked: false
-    };
-    componentWillMount() {
-      if (!getAuthToken()) {
+    componentDidUpdate(prevProps) {
+      if (this.props.isChecked !== prevProps.isChecked) {
+        this.checkUser();
+      }
+    }
+
+    checkUser() {
+      if (!this.props.isLogined) {
         this.props.push("/login");
         return;
       }
-
-      Api.authMe().then(user => {
-        if (!checkIsAdmin){
-          this.setState({checked: true});
-          return;
-        };
-        if (user.isAdmin) {
-          this.setState({
-            checked: true
-          });
-        } else {
-          this.props.push("/");
-        }
-      });
+      if (checkIsAdmin && !this.props.isAdmin) {
+        this.props.push("/");
+        return;
+      }
     }
+
+    componentDidMount() {
+      if (!this.props.isChecked) {
+        this.props.getAuthMe();
+      } else {
+        this.checkUser();
+      }
+    }
+
     render() {
-      if (!this.state.checked)
+      if (!this.props.isChecked)
         return (
           <FlexStyle>
             Loadding ...

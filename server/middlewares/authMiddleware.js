@@ -35,7 +35,7 @@ export default (req, res, next) => {
       }
     });
   } else {
-    return res.status(403).send({
+    return res.send({
       success: false,
       message: "No token provided"
     });

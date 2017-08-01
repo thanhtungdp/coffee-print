@@ -26,11 +26,11 @@ export function deleteImage(imageId) {
 }
 
 export function deleteAllImage() {
-	return postFetch(getUrl(`image/delete-all`));
+  return postFetch(getUrl(`image/delete-all`));
 }
 
 export function restoreAllImage() {
-	return postFetch(getUrl(`image/restore-all`));
+  return postFetch(getUrl(`image/restore-all`));
 }
 
 export function getDrinks() {
@@ -45,24 +45,44 @@ export function deleteDrink(id) {
   return deleteFetch(getUrl(`drink/${id}`), { id });
 }
 
+export function getUsers() {
+  return getFetch(getUrl("user"));
+}
+
+export function createUser(data) {
+  return postFetch(getUrl("user"), data);
+}
+
+export function updateUser(data) {
+  return putFetch(getUrl("user"),data);
+}
+
+export function deleteUser(id) {
+  return deleteFetch(getUrl(`user/${id}`), { id });
+}
+
 export function authLogin({ username, password }) {
   return postFetch(getUrl("auth/login"), { username, password });
 }
 
 export function authMe() {
-	return getFetch(getUrl("auth/me"));
+  return getFetch(getUrl("auth/me"));
 }
 
 export default {
   getImageList,
   uploadImage,
   deleteImage,
-	deleteAllImage,
-	restoreAllImage,
+  deleteAllImage,
+  restoreAllImage,
   getDrinks,
   createDrink,
   deleteDrink,
+  getUsers,
+  createUser,
+	updateUser,
+  deleteUser,
   printImage,
   authLogin,
-	authMe
+  authMe
 };

@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { autobind } from "core-decorators";
 import ImageResize from "./ImageResize";
+import Button from "reactstrap/lib/Button";
 import Toolbar from "./toolbar";
-import Clearfix from '../elements/clearfix';
+import Clearfix from "../elements/clearfix";
 import Slider from "./toolbar/Brightness";
 import { PrintElem } from "utils/print";
 
@@ -24,10 +25,16 @@ const MainContainer = styled.div`
   justify-content: center;
 `;
 
+const InfoContainer = styled.div`
+  width: 500px;
+  margin-left:auto;
+  margin-right: auto;
+`;
+
 const SpanName = styled.p`
   color: #ffffff;
   text-align: center;
-`
+`;
 
 @autobind
 export default class ImageEditor extends PureComponent {
@@ -52,8 +59,8 @@ export default class ImageEditor extends PureComponent {
     e.preventDefault();
     this.setState({ isPreview: true }, () => {
       setTimeout(() => {
-	      PrintElem("imageResize", this.props.onPrinted);
-      }, 200)
+        PrintElem("imageResize", this.props.onPrinted);
+      }, 200);
     });
   }
 
@@ -70,7 +77,6 @@ export default class ImageEditor extends PureComponent {
           isPreview={this.state.isPreview}
           onPreview={this.onPressPreview.bind(this)}
           onReset={this.props.onReset}
-          onPrint={this.onPrint.bind(this)}
           onSetting={this.props.onSetting}
         />
         <MainContainer>
@@ -82,11 +88,17 @@ export default class ImageEditor extends PureComponent {
             size={this.props.size}
           />
         </MainContainer>
-        <div>
-          <Clearfix height={24}/>
+        <InfoContainer>
           <SpanName>{this.props.name}</SpanName>
-        </div>
+        </InfoContainer>
         <Slider onChange={this.handleChangeSlider} />
+        <Clearfix height={24} />
+        <InfoContainer>
+          <Button onClick={this.onPrint.bind(this)} color="primary" size="lg" block>
+            <i className="icon-printer" /> In ảnh
+          </Button>
+        </InfoContainer>
+        <Clearfix height={24} />
       </ImageEditorContainer>
     );
   }

@@ -4,13 +4,21 @@ import swal from "sweetalert2";
 import { autobind } from "core-decorators";
 import Input from "reactstrap/lib/Input";
 import ButtonStyle from "reactstrap/lib/Button";
+import Clearfix from "components/elements/clearfix";
 import { connectAutoBindAction } from "utils/redux";
+import LogoHeading from "./LogoHeading";
 import { getDrinks } from "redux/actions/drinkAction";
 import Api from "api/Api";
 
 const ImageFormContainer = styled.div`
   background-color: rgba(0,0,0,.3);
-  padding: 60px 30px;
+  padding: 60px 30px 60px 30px;
+  margin-top: 80px;
+  position: relative;
+  @media(max-width: 420px){
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   label {
     color: #ffffff;
     font-size: 18px;
@@ -37,34 +45,22 @@ const ImageFormContainer = styled.div`
 `;
 
 const Button = styled(ButtonStyle)`
-  padding: 15px 20px;
   width: 100%;
   font-size: 16px;
-  color: #ffffff !important;
-  background-color: ${props => (props.customColor ? props.customColor : "#3498db")} !important;
-  &:hover, &:focus{
-    background-color: ${props => (props.customColor ? props.customColor : "#3498db")} !important;
-    color: #ffffff !important;
-  }
-  border-radius: 5px;
-  border: 0px;
 `;
 
-const ButtonSelectImage = styled(ButtonStyle)`
-  padding: 15px 20px;
-  width: 100%;
-  font-size: 16px;
-  color: #ffffff;
-  border: 2px dashed #ffffff !important;
-  &:hover, &:focus{
-    background-color: transparent !important;
-    color: #ffffff;
-  }
-  background-color: transparent !important;
-`;
-
-const ImagePreview = styled.img`
-  max-width: 100%;
+const ImagePreview = styled.div`
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  background: url(${props => props.src});
+  background-size: cover;
+  background-color: #eeeeee;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d4d4d4;
 `;
 
 const Title = styled.h4`
@@ -72,6 +68,36 @@ const Title = styled.h4`
   margin-bottom: 15px;
   margin-top: 0px;
   text-align: center;
+  font-size: 18px;
+`;
+
+const SelectImageBox = styled.div`
+  border: 2px dashed #ffffff !important;
+  padding: 15px 10px;
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const SelectImageColumn = styled.div`
+  width: 48%;
+`;
+
+const SelectImageColumnButton = styled(SelectImageColumn)`
+  padding-left: 20px;
+  @media(max-width: 420px){
+    padding-left: 10px;
+  }
+  @media(max-width: 320px){
+    padding-left: 5px;
+  }
+`
+
+const SelectImageColumnPreview = styled(SelectImageColumn)`
+ display: flex;
+ justify-content: center;
 `;
 
 @connectAutoBindAction(
@@ -163,7 +189,7 @@ export default class ImageForm extends Component {
   _OptionSelectDrink() {
     return (
       <div className="form-group">
-        <label>Đồ uống</label>
+        <label>Thức uống</label>
         <Input
           type="select"
           size="lg"
@@ -171,7 +197,7 @@ export default class ImageForm extends Component {
           value={this.state.drinkId}
           placeholder="Chọn đồ uống"
         >
-          <option value="">Chọn đồ uống</option>
+          <option value="">Chọn thức uống</option>
           {this.props.drinks.map(drink => (
             <option key={drink.id} value={drink.id}>
               {drink.name}
@@ -184,17 +210,33 @@ export default class ImageForm extends Component {
 
   _SelectImage() {
     return (
-      <div className="form-group">
-        {!this.state.imagePreview
-          ? <ButtonSelectImage
-              color="primary"
-              onClick={this.handleClickBtnImage}
-            >
+      <SelectImageBox>
+        <SelectImageColumnButton>
+          <Button color="success" onClick={this.handleClickBtnImage}>
+            <span>
               <i className="icon-picture" /> Chọn ảnh
-            </ButtonSelectImage>
-          : <div onClick={this.handleClickBtnImage}>
-              <ImagePreview src={this.state.imagePreview} alt="image preview" />
-            </div>}
+            </span>
+          </Button>
+          <Clearfix height={10} />
+          <Button
+            color="primary"
+            disabled={this.state.uploading}
+            onClick={this.handleSubmit.bind(this)}
+          >
+            {this.state.uploading
+              ? <span>
+                  Đang gửi lên &nbsp; <i className="icon-options" />
+                </span>
+              : <span>
+                  <i className="icon-cloud-upload" /> Tải ảnh lên
+                </span>}
+          </Button>
+        </SelectImageColumnButton>
+        <SelectImageColumnPreview onClick={this.handleClickBtnImage}>
+          <ImagePreview src={this.state.imagePreview} alt="image preview">
+            {!this.state.imagePreview ? <i className="icon-picture"/> : null}
+          </ImagePreview>
+        </SelectImageColumnPreview>
         <input
           ref={ref => (this.fileImage = ref)}
           type="file"
@@ -202,19 +244,22 @@ export default class ImageForm extends Component {
           placeholder="Chọn ảnh"
           onChange={this.handleChangeFile.bind(this)}
         />
-      </div>
+      </SelectImageBox>
     );
   }
 
   render() {
     return (
       <ImageFormContainer>
-        <Title>Tải ảnh lên ^_^</Title>
+        <LogoHeading />
+        <Title>
+          Bạn vui lòng chọn số bàn, thức uống theo hóa đơn để thuận tiện cho việc in ảnh nhé !
+        </Title>
         <div className="line" />
         <div className="form-group">
           <label>Bàn số</label>
           <Input
-            placeholder="Bàn số"
+            placeholder="Chọn số bàn"
             size="lg"
             value={this.state.tableNumber}
             onChange={this.handleChangeInput.bind(this, "tableNumber")}
@@ -224,19 +269,6 @@ export default class ImageForm extends Component {
         {this._OptionSelectDrink()}
         <div className="line" />
         {this._SelectImage()}
-        <div className="line" />
-        <Button
-          disabled={this.state.uploading}
-          onClick={this.handleSubmit.bind(this)}
-        >
-          {this.state.uploading
-            ? <span>
-                Đang gửi lên &nbsp; <i className="icon-options" />
-              </span>
-            : <span>
-                <i className="icon-cloud-upload" /> Tải lên ngay
-              </span>}
-        </Button>
       </ImageFormContainer>
     );
   }

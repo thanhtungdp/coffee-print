@@ -44,12 +44,12 @@ export default class CreateForm extends PureComponent {
         <InputWrapper>
           <Input
             value={this.state.name}
-            placeholder="Tên đồ uống"
+            placeholder="Tên thức uống"
             onChange={this.handleChangeName}
           />
         </InputWrapper>
         <Button color="primary">
-          <i className="icon-plus" /> Tạo
+          <i className="icon-plus" /> Thêm
         </Button>
       </CreateFormContainer>
     );

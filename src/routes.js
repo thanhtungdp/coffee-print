@@ -2,6 +2,7 @@ import React from "react";
 import { IndexRoute, Route } from "react-router";
 import ImageGallery from "containers/image-gallery";
 import DrinkManager from "containers/drink-manager";
+import UserManager from "containers/user-manager";
 import UploadImage from "containers/upload-image";
 import Login from "containers/login";
 import Home from "containers/home";
@@ -16,6 +17,7 @@ export default () => {
     <Route path="/" component={AppContainer}>
       <IndexRoute component={CheckIsAdmin()(Home)} />
       <Route path="gallery-manager" component={CheckIsAdmin()(ImageGallery)} />
+      <Route path="user-manager" component={CheckIsAdmin()(UserManager)} />
       <Route
         path="drink-manager"
         component={CheckIsAdmin({ checkIsAdmin: true })(DrinkManager)}
