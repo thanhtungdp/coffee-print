@@ -26,7 +26,7 @@ const Absolute = styled.div`
 
 const OverlayPrinted = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   top: 0px;
   left: 0px;
   right: 0px;

@@ -34,7 +34,13 @@ const InfoContainer = styled.div`
 const SpanName = styled.p`
   color: #ffffff;
   text-align: center;
+  margin-bottom: 0px;
+  font-size: 14px;
 `;
+
+const ButtonResize = styled(Button)`
+  font-size: 14px !important;
+`
 
 @autobind
 export default class ImageEditor extends PureComponent {
@@ -64,9 +70,14 @@ export default class ImageEditor extends PureComponent {
     });
   }
 
-  handleChangeSlider({ brightness, contrast, angle }) {
-    this.imageResize.updateBrightnessConstants({ brightness, contrast });
+  handleChangeSlider({ brightness, zoomSize, angle }) {
+    this.imageResize.updateBrightnessConstants({ brightness });
+    this.imageResize.updateZoomSize(zoomSize);
     this.imageResize.updateRotate(angle);
+  }
+
+	handleChangeZoomResize(zoomSize){
+    this.slider.updateZoomSize(zoomSize);
   }
 
   render() {
@@ -86,19 +97,18 @@ export default class ImageEditor extends PureComponent {
             isPreview={this.state.isPreview}
             imageUrl={this.props.imageUrl}
             size={this.props.size}
+            onResizeZoom={this.handleChangeZoomResize}
           />
         </MainContainer>
         <InfoContainer>
           <SpanName>{this.props.name}</SpanName>
-        </InfoContainer>
-        <Slider onChange={this.handleChangeSlider} />
-        <Clearfix height={24} />
-        <InfoContainer>
-          <Button onClick={this.onPrint.bind(this)} color="primary" size="lg" block>
+          <Slider ref={ref => this.slider = ref} onChange={this.handleChangeSlider} />
+          <Clearfix height={16} />
+          <ButtonResize onClick={this.onPrint.bind(this)} color="primary" size="lg" block>
             <i className="icon-printer" /> In ảnh
-          </Button>
+          </ButtonResize>
+          <Clearfix height={4} />
         </InfoContainer>
-        <Clearfix height={24} />
       </ImageEditorContainer>
     );
   }

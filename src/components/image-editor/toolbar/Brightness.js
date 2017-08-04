@@ -4,12 +4,11 @@ import styled from "styled-components";
 import Slider from "react-rangeslider";
 
 const BrightnessContainer = styled.div`
-  padding: 0px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   .sliderContent {
-    width: 500px;
+    width: 100%;
     .rangeslider__handle{
       width: 20px;
       height: 20px;
@@ -33,6 +32,7 @@ const BrightnessContainer = styled.div`
       font-weight: 600;
       position: relative;
       margin-bottom: 5px;
+      line-height: normal;
     }
   }
   .rangeslider{
@@ -47,12 +47,32 @@ export default class Brightness extends PureComponent {
 
   state = {
     brightness: 100,
-    contrast: 100,
+    zoomSize: 0,
     angle: 0
   };
 
+  updateZoomSize(zoomSize) {
+    let zoomState = 1;
+    if (zoomSize > 1) {
+      zoomState = (zoomSize - 1) * 100;
+    } else {
+      zoomState = -(1 - zoomSize) * 100;
+    }
+    this.setState({
+      zoomSize: zoomState
+    })
+  }
+
   getPercent(percent) {
     return (percent - 100) / 100;
+  }
+
+  getZoomSize(zoom) {
+    let zoomPercent = Math.abs(Math.abs(zoom) - 100) / 100;
+    let zoomPerWith100 = Math.abs(Math.abs(zoom) + 100 - 100) / 100;
+    if (zoom < 0) return zoomPercent;
+    if (zoom > 0) return zoomPerWith100 + 1;
+    return 1;
   }
 
   handleChangeSlider(key, value) {
@@ -68,7 +88,7 @@ export default class Brightness extends PureComponent {
     if (this.props.onChange) {
       this.props.onChange({
         brightness: this.getPercent(this.state.brightness),
-        contrast: this.getPercent(this.state.contrast),
+        zoomSize: this.getZoomSize(this.state.zoomSize),
         angle: this.state.angle
       });
     }
@@ -95,7 +115,7 @@ export default class Brightness extends PureComponent {
       <BrightnessContainer>
         <div className="sliderContent">
           {this.renderSlider("Độ sáng", "brightness")}
-          {this.renderSlider("Tương phản", "contrast")}
+          {this.renderSlider("Zoom", "zoomSize", -100, 300)}
           {this.renderSlider("Xoay", "angle", -360, 360)}
         </div>
       </BrightnessContainer>
