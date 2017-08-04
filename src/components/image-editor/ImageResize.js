@@ -35,7 +35,8 @@ const Empty = styled.div`
 export default class ImageResizeEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
-    size: PropTypes.number
+    size: PropTypes.number,
+	  onResizeZoom: PropTypes.func
   };
 
   static defaultProps = {
@@ -49,13 +50,6 @@ export default class ImageResizeEditor extends PureComponent {
       imageHeight: props.size,
       yPosition: 0
     };
-  }
-
-  onResize(e, direction, ad, delta) {
-    this.setState({
-      imageWidth: parseInt(ad.style.width.replace("px", "")),
-      imageHeight: parseInt(ad.style.height.replace("px", ""))
-    });
   }
 
   componentDidMount() {
@@ -87,6 +81,18 @@ export default class ImageResizeEditor extends PureComponent {
     img.src = this.props.imageUrl;
   }
 
+  updateZoomSize(zoomSize) {
+    this.refResize.updateSize({ width: this.state.imageWidth * zoomSize });
+  }
+
+  onResize(e, direction, ad, delta) {
+    let resizeWidth = parseInt(ad.style.width.replace("px", "") , 10);
+    let zoomSize = resizeWidth / this.state.imageWidth;
+    if(this.props.onResizeZoom){
+	    this.props.onResizeZoom(zoomSize);
+    }
+  }
+
   render() {
     const { yPosition } = this.state;
     return (
@@ -98,6 +104,7 @@ export default class ImageResizeEditor extends PureComponent {
         {!yPosition && <Empty>Loading ...</Empty>}
         {yPosition &&
           <Resize
+            innerRef={ref => {this.refResize = ref}}
             default={{
               x: 0,
               y: yPosition,
@@ -106,12 +113,10 @@ export default class ImageResizeEditor extends PureComponent {
             lockAspectRatio
             resizeGrid={[1, 1]}
             isPeview={this.props.isPreview}
-            onResize={this.onResize.bind(this)}
+            onResize={this.onResize}
           >
             <ImageCanvas
               ref={ref => (this.imageCanvas = ref)}
-              width={this.state.imageWidth}
-              height={this.state.imageHeight}
               imageUrl={this.props.imageUrl}
             />
           </Resize>}
