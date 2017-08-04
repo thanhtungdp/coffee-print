@@ -96,7 +96,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "backup": "cp -r build/uploads ../coffee-backup",
-    "restore": "cp -r ../coffee-backup/** build/uploads",
+    "restore": "cp -r ../coffee-backup/uploads/** build/uploads",
     "build": "npm run backup && node scripts/build.js && npm run init-folder && npm run restore",
     "test": "node scripts/test.js --env=jsdom",
     "server-dev": "NODE_ENV=development nodemon --exec babel-node server/app.js",
