@@ -72,7 +72,7 @@ export default class ImageCanvas extends PureComponent {
       setTimeout(() => {
 	      this.createCanvas();
 	      this.updateBrightnessConstants({});
-      }, 200)
+      }, 100)
     });
   }
 
