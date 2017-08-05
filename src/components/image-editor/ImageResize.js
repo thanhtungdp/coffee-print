@@ -36,7 +36,7 @@ export default class ImageResizeEditor extends PureComponent {
   static propTypes = {
     imageUrl: PropTypes.string,
     size: PropTypes.number,
-	  onResizeZoom: PropTypes.func
+    onResizeZoom: PropTypes.func
   };
 
   static defaultProps = {
@@ -46,9 +46,10 @@ export default class ImageResizeEditor extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      imageUrl: "",
       imageWidth: props.size,
       imageHeight: props.size,
-      yPosition: 0
+      yPosition: null
     };
   }
 
@@ -73,7 +74,7 @@ export default class ImageResizeEditor extends PureComponent {
   }
 
   readSizeImage() {
-    var img = new Image();
+	  var img = new Image();
     var context = this;
     img.addEventListener("load", function() {
       context.updateImageSize(this.naturalWidth, this.naturalHeight);
@@ -86,25 +87,28 @@ export default class ImageResizeEditor extends PureComponent {
   }
 
   onResize(e, direction, ad, delta) {
-    let resizeWidth = parseInt(ad.style.width.replace("px", "") , 10);
+    let resizeWidth = parseInt(ad.style.width.replace("px", ""), 10);
     let zoomSize = resizeWidth / this.state.imageWidth;
-    if(this.props.onResizeZoom){
-	    this.props.onResizeZoom(zoomSize);
+    if (this.props.onResizeZoom) {
+      this.props.onResizeZoom(zoomSize);
     }
   }
 
   render() {
     const { yPosition } = this.state;
+    console.log(yPosition);
     return (
       <ImageEditorContainer
         id="imageResize"
         isPreview={this.props.isPreview}
         size={this.props.size}
       >
-        {!yPosition && <Empty>Loading ...</Empty>}
-        {yPosition &&
+        {yPosition === null && <Empty>Loading ...</Empty>}
+        {yPosition !== null &&
           <Resize
-            innerRef={ref => {this.refResize = ref}}
+            innerRef={ref => {
+              this.refResize = ref;
+            }}
             default={{
               x: 0,
               y: yPosition,
