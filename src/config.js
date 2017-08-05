@@ -1,4 +1,4 @@
-export const DEFAULT_API = "http://localhost:1234";
+export const DEFAULT_API = "http://inhinh.debearcafe.com";
 export const PORT_START = 1234;
 export const UPLOADS_FOLDER_NAME = "uploads";
 export const UPLOADS_THUMBNAIL_FOLDER_NAME = "thumbnails";
