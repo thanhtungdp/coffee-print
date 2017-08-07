@@ -54,6 +54,9 @@ export default class Toolbar extends PureComponent {
     return (
       <ToolbarContainer>
         <Menu>
+          &nbsp;
+        </Menu>
+        <Menu>
           <ButtonItem href="#" onClick={this.props.onReset}>
             <i className="icon-refresh" /> Đặt lại
           </ButtonItem>
@@ -61,13 +64,6 @@ export default class Toolbar extends PureComponent {
           <ButtonItem href="#" onClick={this.props.onSetting}>
             <i className="icon-film" /> Thiết lập trang
           </ButtonItem>
-          <Clearfix />
-        </Menu>
-        <Menu>
-          <ButtonCrop
-            isPreview={this.props.isPreview}
-            onClick={this.props.onPreview}
-          />
           <Clearfix />
         </Menu>
       </ToolbarContainer>
