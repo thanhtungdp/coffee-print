@@ -44,8 +44,7 @@ export function mmToPx(width) {
   return toPx(width + "mm");
 }
 
-export function getPageSizePx() {
-  const pageSize = getPageSize();
+export function getPageSizePx(pageSize = getPageSize()) {
   return {
     width: mmToPx(pageSize.width),
     height: mmToPx(pageSize.height),

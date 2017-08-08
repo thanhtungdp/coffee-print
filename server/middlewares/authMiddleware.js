@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import User from "../models/user";
 import { SECRET } from "../config";
 
 function getTokenFromAuthorization(req) {
@@ -9,31 +10,31 @@ function getTokenFromAuthorization(req) {
   return "";
 }
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   var token =
     req.body.token ||
     req.query.user_token ||
     req.headers["x-access-token"] ||
     getTokenFromAuthorization(req);
   if (token) {
-    jwt.verify(token, SECRET, (err, payload) => {
-      if (err) {
+    try {
+	    const tokenPayload = await jwt.verify(token, SECRET);
+	    req.isAdmin = tokenPayload.isAdmin;
+      req.user = await User.findOne({ _id: tokenPayload.userId });
+      if (req.user) {
+        next();
+      } else {
         return res.json({
           success: false,
           message: "Failed to authenticate token"
         });
-      } else {
-        req.isAdmin = payload.isAdmin;
-        if (payload.isLogin) {
-          next();
-        } else {
-          return res.json({
-            success: false,
-            message: "Failed to authenticate token"
-          });
-        }
       }
-    });
+    } catch (e) {
+      return res.json({
+        success: false,
+        message: "Failed to authenticate token"
+      });
+    }
   } else {
     return res.send({
       success: false,

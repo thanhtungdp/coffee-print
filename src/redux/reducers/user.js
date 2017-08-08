@@ -4,8 +4,10 @@ import {
   CREATE_USER,
   DELETE_USER,
   GET_AUTH_ME,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
+  UPDATE_PAPER_SIZE
 } from "../actions/userAction";
+import { getPageSizeDefault } from "utils/page";
 
 const initialState = {
   list: {
@@ -15,7 +17,8 @@ const initialState = {
   me: {
     isAdmin: false,
     isLogined: false,
-    isChecked: false
+    isChecked: false,
+    paperSize: {}
   }
 };
 
@@ -29,6 +32,8 @@ export default function createReducer(state = initialState, action) {
       return deleteUser(state, action);
     case GET_AUTH_ME:
       return updateAuthMe(state, action);
+    case UPDATE_PAPER_SIZE:
+      return updatePaperSize(state, action);
     case AUTH_LOGOUT:
       return initialState;
     default:
@@ -68,6 +73,16 @@ export function deleteUser(state, { id }) {
   });
 }
 
+export function updatePaperSize(state, { data }) {
+  return update(state, {
+    me: {
+      paperSize: {
+        $set: data
+      }
+    }
+  });
+}
+
 export function updateAuthMe(state, { payload: { getAuthMe } }) {
   if (getAuthMe.success === false) {
     return update(state, {
@@ -88,6 +103,11 @@ export function updateAuthMe(state, { payload: { getAuthMe } }) {
       },
       isChecked: {
         $set: true
+      },
+      paperSize: {
+        $set: getAuthMe.paperSize.width
+          ? getAuthMe.paperSize
+          : getPageSizeDefault()
       }
     }
   });
