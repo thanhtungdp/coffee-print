@@ -69,6 +69,14 @@ export function authMe() {
   return getFetch(getUrl("auth/me"));
 }
 
+export function updatePaperSize(data){
+  return postFetch(getUrl('auth/update-paper-size'), data)
+}
+
+export function resetPaperSize(){
+	return postFetch(getUrl('auth/reset-paper-size'))
+}
+
 export default {
   getImageList,
   uploadImage,
@@ -84,5 +92,7 @@ export default {
   deleteUser,
   printImage,
   authLogin,
-  authMe
+  authMe,
+	updatePaperSize,
+	resetPaperSize
 };

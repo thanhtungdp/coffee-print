@@ -3,6 +3,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { autobind } from "core-decorators";
+import {connect} from 'react-redux';
 import ImageResize from "./ImageResize";
 import Button from "reactstrap/lib/Button";
 import Toolbar from "./toolbar";
@@ -42,6 +43,9 @@ const ButtonResize = styled(Button)`
   font-size: 14px !important;
 `
 
+@connect(state => ({
+  paperSize: state.user.me.paperSize
+}))
 @autobind
 export default class ImageEditor extends PureComponent {
   static propTypes = {
@@ -65,7 +69,7 @@ export default class ImageEditor extends PureComponent {
     e.preventDefault();
     this.setState({ isPreview: true }, () => {
       setTimeout(() => {
-        PrintElem("imageResize", this.props.onPrinted);
+        PrintElem("imageResize", this.props.onPrinted, this.props.paperSize);
       }, 200);
     });
   }

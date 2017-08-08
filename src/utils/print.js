@@ -1,10 +1,9 @@
 import $ from "jquery";
-import { getPageSizePx, getPageSize, mmToPx } from "utils/page";
+import { getPageSizePx, mmToPx } from "utils/page";
 import { IMAGE_SIZE_DISPLAY } from "config/paperSize";
 
-export function PrintElem(elem, callback) {
-  const pageDefaultMM = getPageSize();
-  const pageSize = getPageSizePx();
+export function PrintElem(elem, callback, pageDefaultMM) {
+  const pageSize = getPageSizePx(pageDefaultMM);
   let styleHtml = $("style")[0].outerHTML;
   let htmlContent = document.getElementById(elem).outerHTML;
   var mywindow = window.open(

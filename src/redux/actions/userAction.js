@@ -1,12 +1,14 @@
 import Api from "api/Api";
 import { AWAIT_MARKER } from "redux-await";
-import {removeAuthToken} from "utils/auth";
+import { removeAuthToken } from "utils/auth";
+import { getPageSizeDefault } from "utils/page";
 
 export const GET_USERS = "DRINK/get-users";
 export const GET_AUTH_ME = "DRINK/get-auth-me";
 export const AUTH_LOGOUT = "DRINK/auth-logout-me";
 export const CREATE_USER = "DRINK/create-drink";
 export const DELETE_USER = "DRINK/delete-drink";
+export const UPDATE_PAPER_SIZE = "DRINK/update-paper-size";
 
 export function getUsers() {
   return {
@@ -54,11 +56,25 @@ export function updateUser(data) {
   };
 }
 
-export function authLogout(){
-	removeAuthToken();
+export function authLogout() {
+  removeAuthToken();
   return {
     type: AUTH_LOGOUT
+  };
+}
+
+export function updatePaperSize(data, isSync = true) {
+  if(isSync){
+	  Api.updatePaperSize(data);
   }
+  return {
+    type: UPDATE_PAPER_SIZE,
+    data
+  };
+}
+
+export function resetPaperSize() {
+  return updatePaperSize(getPageSizeDefault());
 }
 
 export default {
@@ -66,6 +82,8 @@ export default {
   createUser,
   deleteUser,
   updateUser,
-	getAuthMe,
-	authLogout
+  getAuthMe,
+  authLogout,
+  updatePaperSize,
+  resetPaperSize
 };
