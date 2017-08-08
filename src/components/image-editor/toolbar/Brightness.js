@@ -28,7 +28,7 @@ const BrightnessContainer = styled.div`
     position: relative;
     label {
       color: #ffffff;
-      font-size: 10px;
+      font-size: 14px;
       font-weight: 600;
       position: relative;
       margin-bottom: 5px;
@@ -115,7 +115,7 @@ export default class Brightness extends PureComponent {
       <BrightnessContainer>
         <div className="sliderContent">
           {this.renderSlider("Độ sáng", "brightness")}
-          {this.renderSlider("Zoom", "zoomSize", -100, 300)}
+          {this.renderSlider("Phóng to", "zoomSize", -100, 300)}
           {this.renderSlider("Xoay", "angle", -360, 360)}
         </div>
       </BrightnessContainer>

@@ -35,7 +35,7 @@ const Remove = styled.a`
   background-color: ${props => (props.color ? props.color : SHAPE.RED)};
   padding: 2px;
   color: #ffffff !important;
-  font-size: 12px;
+  font-size: 14px;
   flex: 1;
   &:hover{
     color: #ffffff !important;
