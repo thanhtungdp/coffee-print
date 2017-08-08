@@ -35,7 +35,7 @@ const OverlayPrinted = styled.div`
   justify-content: center;
   align-items: center;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 14px;
 `;
 
 const WrapLabel = styled.div`

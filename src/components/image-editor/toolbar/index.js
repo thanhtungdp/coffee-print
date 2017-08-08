@@ -21,7 +21,7 @@ const Clearfix = styled.div`
 
 const ButtonItem = styled.a`
   color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
   &:hover, &:focus{
     color: #ffffff;
     text-decoration: none;
@@ -57,12 +57,8 @@ export default class Toolbar extends PureComponent {
           &nbsp;
         </Menu>
         <Menu>
-          <ButtonItem href="#" onClick={this.props.onReset}>
-            <i className="icon-refresh" /> Đặt lại
-          </ButtonItem>
-          <Clearfix />
           <ButtonItem href="#" onClick={this.props.onSetting}>
-            <i className="icon-film" /> Thiết lập trang
+            <i className="icon-settings" /> Cấu hình in
           </ButtonItem>
           <Clearfix />
         </Menu>
@@ -70,3 +66,10 @@ export default class Toolbar extends PureComponent {
     );
   }
 }
+
+/*
+ <ButtonItem href="#" onClick={this.props.onReset}>
+ <i className="icon-refresh" /> Đặt lại
+ </ButtonItem>
+ <Clearfix />
+ */
