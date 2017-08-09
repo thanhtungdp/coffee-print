@@ -25,12 +25,12 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/update-paper-size", authMiddleware, async (req, res) => {
-  const { width, height, paddingRight, paddingLeft, circleSize } = req.body;
+  const { width, height, paddingRight, paddingBottom, circleSize } = req.body;
   const user = req.user;
   user.paperSize = {
     width,
     height,
-    paddingLeft,
+	  paddingBottom,
     paddingRight,
     circleSize
   };
@@ -44,7 +44,7 @@ router.post("/reset-paper-size", authMiddleware, async (req, res) => {
     width: PaperSize.SIZE.width,
     height: PaperSize.SIZE.height,
     paddingRight: PaperSize.SIZE.paddingRight,
-    paddingLeft: PaperSize.SIZE.paddingRight,
+	  paddingBottom: PaperSize.SIZE.paddingBottom,
     circleSize: PaperSize.IMAGE_SIZE_PRINT
   };
   await user.save();
