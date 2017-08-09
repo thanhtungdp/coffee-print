@@ -259,7 +259,7 @@ export default class ImageForm extends Component {
         <div className="form-group">
           <label>Bàn số</label>
           <Input
-            placeholder="Chọn số bàn"
+            placeholder="Nhập số bàn"
             size="lg"
             value={this.state.tableNumber}
             onChange={this.handleChangeInput.bind(this, "tableNumber")}
