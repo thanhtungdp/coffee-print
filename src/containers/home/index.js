@@ -63,13 +63,17 @@ const TextSpan = styled.span`
 @autobind
 export default class Home extends Component {
   static propTypes = {};
-  renderItem(color, icon, name, path, block = false) {
+  renderItem(color, icon, name, path, block = false, onClick = () => {}) {
     return (
-      <ItemContainer to={path} color={color} block={block}>
+      <ItemContainer to={path} color={color} onClick={onClick} block={block}>
         <Icon className={icon} />
         <TextSpan>{name}</TextSpan>
       </ItemContainer>
     );
+  }
+
+	handleClickGalleryManager(){
+
   }
 
   renderForAdmin() {
@@ -79,7 +83,9 @@ export default class Home extends Component {
           SHAPE.GREEN,
           "icon-picture",
           "Quản lý in ảnh",
-          "/gallery-manager"
+          "/select-store",
+          false,
+          this.handleClickGalleryManager
         )}
         {this.renderItem(
           SHAPE.ORANGE,
@@ -99,6 +105,13 @@ export default class Home extends Component {
           "Quản lý tài khoản",
           "/user-manager"
         )}
+	      {this.renderItem(
+		      SHAPE.ORANGE,
+		      "icon-bag",
+		      "Quản lý IP cửa hàng",
+		      "/store-manager",
+          true
+	      )}
       </Grid>
     );
   }

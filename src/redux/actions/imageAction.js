@@ -9,22 +9,22 @@ export const DELETE_ALL_IMAGE = "IMAGE/delete-all-image";
 export const CLEAR_CURRENT_IMAGE = "IMAGE/clear-current-image";
 export const PRINT_IMAGE = "IMAGE/print-image";
 
-export function getImageList({ type, page, itemPerPage }) {
+export function getImageList({ type, page, itemPerPage, storeId }) {
   return {
     type: GET_IMAGE_LIST,
     AWAIT_MARKER,
     payload: {
-      getImageList: DefaultApi.getImageList({ type, page, itemPerPage })
+      getImageList: DefaultApi.getImageList({ type, page, itemPerPage, storeId })
     }
   };
 }
 
-export function loadMoreImageList({ type, page, itemPerPage }) {
+export function loadMoreImageList({ type, page, itemPerPage, storeId }) {
   return {
     type: LOAD_MORE_IMAGE_LIST,
     AWAIT_MARKER,
     payload: {
-	    loadMoreImageList: DefaultApi.getImageList({ type, page, itemPerPage })
+	    loadMoreImageList: DefaultApi.getImageList({ type, page, itemPerPage, storeId })
     }
   };
 }

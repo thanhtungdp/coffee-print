@@ -5,9 +5,11 @@ function getUrl(path) {
   return `${DEFAULT_API}/${path}`;
 }
 
-export function getImageList({ type, page = 1, itemPerPage = 20 }) {
+export function getImageList({ type, page = 1, itemPerPage = 20, storeId }) {
   return getFetch(
-    getUrl(`image?type=${type}&page=${page}&itemPerPage=${itemPerPage}`)
+    getUrl(
+      `image?type=${type}&page=${page}&itemPerPage=${itemPerPage}&storeId=${storeId}`
+    )
   );
 }
 
@@ -54,7 +56,7 @@ export function createUser(data) {
 }
 
 export function updateUser(data) {
-  return putFetch(getUrl("user"),data);
+  return putFetch(getUrl("user"), data);
 }
 
 export function deleteUser(id) {
@@ -69,12 +71,32 @@ export function authMe() {
   return getFetch(getUrl("auth/me"));
 }
 
-export function updatePaperSize(data){
-  return postFetch(getUrl('auth/update-paper-size'), data)
+export function updatePaperSize(data) {
+  return postFetch(getUrl("auth/update-paper-size"), data);
 }
 
-export function resetPaperSize(){
-	return postFetch(getUrl('auth/reset-paper-size'))
+export function resetPaperSize() {
+  return postFetch(getUrl("auth/reset-paper-size"));
+}
+
+export function getClientIp() {
+  return getFetch(getUrl("client-ip"));
+}
+
+export function getStores() {
+  return getFetch(getUrl("store"));
+}
+
+export function createStore(data) {
+  return postFetch(getUrl("store"), data);
+}
+
+export function updateStore(id, data) {
+  return putFetch(getUrl("store/" + id), data);
+}
+
+export function deleteStore(id) {
+  return deleteFetch(getUrl(`store/${id}`), { id });
 }
 
 export default {
@@ -88,11 +110,16 @@ export default {
   deleteDrink,
   getUsers,
   createUser,
-	updateUser,
+  updateUser,
   deleteUser,
   printImage,
   authLogin,
   authMe,
-	updatePaperSize,
-	resetPaperSize
+  updatePaperSize,
+  resetPaperSize,
+  getClientIp,
+  getStores,
+  createStore,
+  updateStore,
+  deleteStore
 };
