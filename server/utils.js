@@ -6,7 +6,6 @@ var IP = require("request-ip");
 var easyimg = require("easyimage");
 
 export function getClientIP(req) {
-	return req.headers['x-forwarded-for'];
 	return IP.getClientIp(req);
 }
 
