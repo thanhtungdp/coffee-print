@@ -1,19 +1,25 @@
 import { PATH_UPLOADS, PATH_UPLOADS_THUMBNAIL } from "../src/config";
-import jwt from 'jsonwebtoken';
-import {SECRET} from "./config";
+import jwt from "jsonwebtoken";
+import { SECRET } from "./config";
+var IP = require("ip");
 
 var easyimg = require("easyimage");
+
+export function getClientIP(req) {
+  console.log(req.ip);
+  return IP.address();
+}
 
 export function getFileType(fileName) {
   const strs = fileName.split(".");
   return strs[strs.length - 1];
 }
 
-export function createToken({userId, isAdmin = false}) {
-	var token = jwt.sign({userId, isAdmin: isAdmin, isLogin: true}, SECRET, {
-		expiresIn: '316days' // expires in 24 hours
-	});
-	return token;
+export function createToken({ userId, isAdmin = false }) {
+  var token = jwt.sign({ userId, isAdmin: isAdmin, isLogin: true }, SECRET, {
+    expiresIn: "316days" // expires in 24 hours
+  });
+  return token;
 }
 
 export function cropImageThumbnail(fileName) {

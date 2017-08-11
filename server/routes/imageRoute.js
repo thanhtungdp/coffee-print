@@ -6,13 +6,15 @@ import ImageModel from "../models/image";
 import imageType from "../../src/constants/imageType";
 import multerUpload from "../config/multerUpload";
 import DrinkModel from "../models/drink";
-import { cropImageThumbnail } from "../utils";
+import { cropImageThumbnail, getClientIP } from "../utils";
 
 var router = express.Router();
 
 router.post("/", multerUpload.single("image"), async (req, res) => {
   try {
     const { tableNumber, drinkId } = req.body;
+    console.log('get IP');
+    console.log(getClientIP(req));
     let drink = await DrinkModel.findOne({ _id: drinkId });
     let totalImage = await ImageModel.find({}).count();
     let fileName = `${tableNumber}_${slug(drink.name)}_${totalImage + 1}`;
@@ -22,6 +24,7 @@ router.post("/", multerUpload.single("image"), async (req, res) => {
     image.fileName = req.file.filename;
     image.drinkId = drink.id;
     image.tableNumber = tableNumber;
+    image.clientIP = getClientIP(req);
     await image.save();
     res.json(image);
   } catch (e) {
