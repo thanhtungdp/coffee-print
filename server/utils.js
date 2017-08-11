@@ -6,7 +6,7 @@ var IP = require("request-ip");
 var easyimg = require("easyimage");
 
 export function getClientIP(req) {
-	return request.connection.remoteAddress;
+	return req.connection.remoteAddress;
 	return IP.getClientIp(req);
 }
 
