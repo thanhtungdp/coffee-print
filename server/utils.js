@@ -1,13 +1,12 @@
 import { PATH_UPLOADS, PATH_UPLOADS_THUMBNAIL } from "../src/config";
 import jwt from "jsonwebtoken";
 import { SECRET } from "./config";
-var IP = require("ip");
+var IP = require("request-ip");
 
 var easyimg = require("easyimage");
 
 export function getClientIP(req) {
-  console.log(req.ip);
-  return IP.address();
+  return IP.getClientIp(req);
 }
 
 export function getFileType(fileName) {
