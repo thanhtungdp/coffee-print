@@ -6,6 +6,7 @@ import ImageModel from "../models/image";
 import imageType from "../../src/constants/imageType";
 import multerUpload from "../config/multerUpload";
 import DrinkModel from "../models/drink";
+import Store from "../models/store";
 import { cropImageThumbnail, getClientIP } from "../utils";
 
 var router = express.Router();
@@ -13,7 +14,7 @@ var router = express.Router();
 router.post("/", multerUpload.single("image"), async (req, res) => {
   try {
     const { tableNumber, drinkId } = req.body;
-    console.log('get IP');
+    console.log("get IP");
     console.log(getClientIP(req));
     let drink = await DrinkModel.findOne({ _id: drinkId });
     let totalImage = await ImageModel.find({}).count();
@@ -80,15 +81,34 @@ router.post("/restore-all", authMiddleware, async (req, res) => {
   );
 });
 
-router.get("/", async (req, res) => {
+async function imageByStoreMiddleware(req, res, next) {
+  const { storeId } = req.query;
+  let clientIps = [getClientIP(req)];
+  let store = await Store.findOne({ _id: storeId });
+  console.log(store);
+  if (store) {
+    let storeIp = store.ip;
+    if (storeIp.indexOf(",") > -1) {
+      clientIps = storeIp.split(",");
+    } else clientIps = [storeIp];
+  }
+  req.clientIps = clientIps;
+  next();
+}
+
+router.get("/", imageByStoreMiddleware, async (req, res) => {
   const { type } = req.query;
   // await ImageModel.find({}).remove();
   // default query all
-  let objectQuery = { isTrashed: false };
+  let objectQuery = { isTrashed: false, clientIP: { $in: req.clientIps } };
   // Query only type
   if (type !== imageType.ALL && type) {
     objectQuery = {
-      $and: [{ type: type }, { isTrashed: false }]
+      $and: [
+        { type: type },
+        { isTrashed: false },
+        { clientIP: { $in: req.clientIps } }
+      ]
     };
   }
 

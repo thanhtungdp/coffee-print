@@ -61,7 +61,8 @@ const TABS = [
 @connectAutoBindAction(
   state => ({
     images: state.image.list.data,
-    pagination: state.image.list.pagination
+    pagination: state.image.list.pagination,
+    storeId: state.store.storeId,
   }),
   {
     setCurrentImage,
@@ -92,7 +93,8 @@ export default class Gallery extends PureComponent {
     this.props.getImageList({
       type: this.state.currentTab.value,
       page: page,
-      itemPerPage: 20
+      itemPerPage: 20,
+      storeId: this.props.storeId
     });
   }
 
@@ -101,7 +103,8 @@ export default class Gallery extends PureComponent {
     this.props.loadMoreImageList({
       type: this.state.currentTab.value,
       page: this.props.pagination.page + 1,
-      itemPerPage: this.props.pagination.itemPerPage
+      itemPerPage: this.props.pagination.itemPerPage,
+	    storeId: this.props.storeId
     });
   }
 

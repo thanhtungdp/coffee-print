@@ -3,12 +3,12 @@ import { AWAIT_MARKER } from "redux-await";
 import { removeAuthToken } from "utils/auth";
 import { getPageSizeDefault } from "utils/page";
 
-export const GET_USERS = "DRINK/get-users";
-export const GET_AUTH_ME = "DRINK/get-auth-me";
-export const AUTH_LOGOUT = "DRINK/auth-logout-me";
-export const CREATE_USER = "DRINK/create-drink";
-export const DELETE_USER = "DRINK/delete-drink";
-export const UPDATE_PAPER_SIZE = "DRINK/update-paper-size";
+export const GET_USERS = "USER/get-users";
+export const GET_AUTH_ME = "USER/get-auth-me";
+export const AUTH_LOGOUT = "USER/auth-logout-me";
+export const CREATE_USER = "USER/create-user";
+export const DELETE_USER = "USER/delete-user";
+export const UPDATE_PAPER_SIZE = "USER/update-paper-size";
 
 export function getUsers() {
   return {
