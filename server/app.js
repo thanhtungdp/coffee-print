@@ -11,6 +11,7 @@ import imageRoute from "./routes/imageRoute";
 import drinkRoute from "./routes/drinkRoute";
 import authRoute from "./routes/authRoute";
 import userRoute from "./routes/userRoute";
+import {getClientIP} from "./utils";
 
 // Init app express
 const app = express();
@@ -41,6 +42,7 @@ mongoose.connect(config.MONGODB_OPTIONS.database);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../build")));
 }
+app.enable('trust proxy');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "100mb" }));
 
@@ -51,6 +53,7 @@ app.use("/user", userRoute);
 
 app.get("*", (req ,res) => {
   console.log(__dirname);
+  console.log(getClientIP(req));
   res.sendFile(path.join(__dirname,"../build/index.html"));
 });
 
