@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { connectAutoBindAction } from "utils/redux";
 import { getClientIp, getStores } from "redux/actions/storeAction";
 
-@connectAutoBindAction(() => ({}), { getClientIp,  getStores})
+@connectAutoBindAction(
+  state => ({
+    clientIp: state.store.clientIp
+  }),
+  { getClientIp, getStores }
+)
 export default class AppContainer extends Component {
   static propTypes = {};
 
@@ -12,6 +17,7 @@ export default class AppContainer extends Component {
   }
 
   render() {
-    return this.props.children;
+    if (this.props.clientIp) return this.props.children;
+    return null;
   }
 }
