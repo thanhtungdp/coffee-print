@@ -123,7 +123,7 @@ export default class Home extends Component {
           SHAPE.GREEN,
           "icon-picture",
           "Quản lý in ảnh",
-          "/gallery-manager"
+	        "/select-store",
         )}
         {this.renderItem(
           SHAPE.PINK,
