@@ -44,7 +44,7 @@ router.delete(
   }
 );
 
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   const stores = await Store.find({}).sort({ createdAt: -1 });
   res.json(stores);
 });
