@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { connectAutoBindAction } from "utils/redux";
 import { getClientIp, getStores } from "redux/actions/storeAction";
 
