@@ -27,18 +27,18 @@ const ButtonItem = styled.a`
     text-decoration: none;
   }
 `;
-
-const ButtonCrop = ({ isPreview, onClick }) => (
-  <ButtonItem href="#" onClick={onClick}>
-    {isPreview
-      ? <span>
-          <i className="icon-crop" /> Resize & Move
-        </span>
-      : <span>
-          <i className="icon-check" /> Xong
-        </span>}
-  </ButtonItem>
-);
+//
+// const ButtonCrop = ({ isPreview, onClick }) => (
+//   <ButtonItem href="#" onClick={onClick}>
+//     {isPreview
+//       ? <span>
+//           <i className="icon-crop" /> Resize & Move
+//         </span>
+//       : <span>
+//           <i className="icon-check" /> Xong
+//         </span>}
+//   </ButtonItem>
+// );
 
 export default class Toolbar extends PureComponent {
   static propTypes = {

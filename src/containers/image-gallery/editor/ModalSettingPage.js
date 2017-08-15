@@ -9,7 +9,6 @@ import Clearfix from "components/elements/clearfix";
 import { autobind } from "core-decorators";
 import { reduxForm, Field } from "redux-form";
 import { createValidateComponent } from "hoc/redux-form-validate";
-import { setPageSize, getPageSizeDefault } from "utils/page";
 import { updatePaperSize, resetPaperSize } from "redux/actions/userAction";
 import swal from "sweetalert2";
 
