@@ -26,7 +26,7 @@ module.exports = {
       user: 'root',
       host: '103.221.220.245',
       ref: 'origin/release/production-inhinh',
-      repo: 'ssh://git@github.com:thanhtungdp/coffee-print.git',
+      repo: 'https://github.com/thanhtungdp/coffee-print',
       path: '/data/pm2/coffee_print',
       'post-deploy': 'yarn install && yarn build && pm2 reload ecosystem.config.js --env production'
     }

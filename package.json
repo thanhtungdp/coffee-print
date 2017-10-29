@@ -106,7 +106,7 @@
     "server-production": "NODE_ENV=production nodemon --exec babel-node server/app.js",
     "init-folder": "mkdir build/uploads && mkdir build/uploads/thumbnails",
     "deploy-setup": "pm2 deploy ecosystem.config.js production setup",
-    "deploy": "pm2 deploy ecoystem.config.js production"
+    "deploy": "pm2 deploy ecosystem.config.js production"
   },
   "jest": {
     "collectCoverageFrom": [
