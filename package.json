@@ -100,7 +100,7 @@
     "start": "node scripts/start.js",
     "backup": "cp -r build/uploads ../coffee-backup",
     "restore": "cp -r ../coffee-backup/uploads/** build/uploads",
-    "build": "npm run backup && node scripts/build.js && npm run init-folder",
+    "build": "node scripts/build.js && npm run init-folder",
     "test": "node scripts/test.js --env=jsdom",
     "server-dev": "NODE_ENV=development nodemon --exec babel-node server/app.js",
     "server-production": "NODE_ENV=production nodemon --exec babel-node server/app.js",
