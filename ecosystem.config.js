@@ -23,8 +23,8 @@ module.exports = {
 	 */
   deploy: {
     production: {
-      user: 'release',
-      host: '188.166.255.80',
+      user: 'root',
+      host: '103.221.220.245',
       ref: 'origin/release/production-inhinh',
       repo: 'ssh://git@github.com:thanhtungdp/coffee-print.git',
       path: '/data/pm2/coffee_print',
